@@ -1,13 +1,11 @@
 <template>
-
+  <div></div>
 </template>
 
 <script>
-  export default {
-    name: 'Footer'
-  }
+export default {
+  name: 'Footer',
+}
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
