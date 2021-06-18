@@ -1,13 +1,15 @@
 <template>
-
+   <div>
+        12331414325123
+   </div>
 </template>
 
 <script>
-  export default {
-    name: 'Footer'
-  }
+
 </script>
 
 <style scoped lang="scss">
 
 </style>
+
+
