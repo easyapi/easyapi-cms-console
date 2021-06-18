@@ -17,7 +17,7 @@ export default {
   name: 'SideBar',
   data() {
     return {
-      activePath: '/',
+      activePath: '',
       sideBarList: [
         {
           title: '文章管理',
@@ -25,11 +25,11 @@ export default {
         },
         {
           title: '视频管理',
-          path: '',
+          path: '/video',
         },
         {
           title: '文章分类',
-          path: '',
+          path: '/article',
         },
       ],
     }
