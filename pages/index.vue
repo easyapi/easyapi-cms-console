@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <SideBar></SideBar>
-    <div class="">
+    <div class="container-right">
       <el-row class="set-title">
         <el-col :span="2">
           <h2><b>文章管理</b></h2>

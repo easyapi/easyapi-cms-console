@@ -1,37 +1,73 @@
 <template>
   <div class="sideBar">
-    <el-menu
-      default-active="2"
-      background-color="#fff"
-      text-color="#bbb"
-      active-text-color="#000"
-    >
-      <el-menu-item index="1">
-        <i class="el-icon-menu"></i>
-        <template #title>导航二</template>
-      </el-menu-item>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <template #title>导航二</template>
-      </el-menu-item>
-      <el-menu-item index="3">
-        <i class="el-icon-menu"></i>
-        <template #title>导航二</template>
-      </el-menu-item>
-    </el-menu>
+    <div class="sideBar-item" v-for="(nav, index) in sideBarList" :key="index">
+      <nuxt-link
+        :to="nav.path"
+        :class="activePath == nav.path ? 'nav active' : 'nav'"
+      >
+        <i class="el-icon-s-help"></i>
+        <span>{{ nav.title }}</span>
+      </nuxt-link>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'SideBar',
+  data() {
+    return {
+      activePath: '/',
+      sideBarList: [
+        {
+          title: '文章管理',
+          path: '/',
+        },
+        {
+          title: '视频管理',
+          path: '',
+        },
+        {
+          title: '文章分类',
+          path: '',
+        },
+      ],
+    }
+  },
+  mounted() {
+    this.activePath = this.$route.path ? `${this.$route.path}` : '/'
+  },
 }
 </script>
 
 <style scoped lang="scss">
 .sideBar {
+  padding-top: 20px;
   width: 200px;
   height: 100%;
   background: #fff;
+}
+.sideBar-item :hover {
+  color: #409eff;
+  background: #f4f4f4;
+}
+.active {
+  color: #409eff;
+  background: #f4f4f4;
+}
+.nav {
+  padding: 0 20px;
+  width: 200px;
+  height: 56px;
+  display: block;
+  display: flex;
+  align-items: center;
+  i {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+  span {
+    font-size: 14px;
+  }
 }
 </style>
