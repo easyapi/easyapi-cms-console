@@ -48,11 +48,11 @@ export default {
   background: #fff;
 }
 .sideBar-item :hover {
-  color: #409eff;
+  color: #18c1d6;
   background: #f4f4f4;
 }
 .active {
-  color: #409eff;
+  color: #18c1d6;
   background: #f4f4f4;
 }
 .nav {
