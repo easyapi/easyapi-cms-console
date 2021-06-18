@@ -2,38 +2,28 @@
   <div class="container">
     <SideBar></SideBar>
     <div class="container-right">
-      <el-row class="set-title">
-        <el-col :span="2">
-          <h2><b>视频管理</b></h2>
-        </el-col>
-        <el-col :span="2">
-          <Button type="info" class="ea-info-btn" @click="operArticle(1)">添加文章</Button>
-        </el-col>
-      </el-row>
+      <div class="set-title">
+        <div>
+          <b>视频管理</b>
+        </div>
+        <el-button type="primary" class="ea-info-btn" @click="operArticle(1)"
+        >添加视频
+        </el-button
+        >
+      </div>
       <div class="set-content">
         <el-table :data="tableData" :no-data-text="loadingData">
-          <el-table-column
-            prop="title"
-            label="标题">
+          <el-table-column prop="title" label="标题"></el-table-column>
+          <el-table-column prop="type" label="类型"></el-table-column>
+          <el-table-column prop="articleCategory.name" label="分类">
           </el-table-column>
-          <el-table-column
-            prop="type"
-            label="类型">
-          </el-table-column>
-          <el-table-column
-            prop="articleCategory.name"
-            label="分类">
-          </el-table-column>
-          <el-table-column
-            prop="count"
-            label="查看次数">
-          </el-table-column>
-          <el-table-column
-            prop="addTime"
-            label="发布时间">
-          </el-table-column>
+          <el-table-column prop="count" label="查看次数"></el-table-column>
+          <el-table-column prop="addTime" label="发布时间"></el-table-column>
           <template #default="scope">
-            <el-button @click="openArticle(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="openArticle(scope.row)" type="text" size="small"
+            >编辑
+            </el-button
+            >
             <el-button type="text" size="small">删除</el-button>
           </template>
         </el-table>
@@ -78,11 +68,9 @@
     },
     methods: {
       openArticle() {
-
       },
       //分页
       changePage() {
-
       }
     }
   }

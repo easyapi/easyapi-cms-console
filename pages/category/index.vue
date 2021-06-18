@@ -2,44 +2,42 @@
   <div class="container">
     <SideBar></SideBar>
     <div class="container-right">
-      <el-row class="set-title">
-        <el-col :span="2">
-          <h2><b>文章管理</b></h2>
-        </el-col>
-        <el-col :span="2">
-          <Button type="info" class="ea-info-btn" @click="operArticle(1)">添加文章</Button>
-        </el-col>
-      </el-row>
+      <div class="set-title">
+        <div>
+          <b>文章分类</b>
+        </div>
+        <el-button type="primary" class="ea-info-btn" @click="operArticle(1)"
+        >添加分类
+        </el-button
+        >
+      </div>
       <div class="set-content">
-        <el-table :data="tableData" :no-data-text="loadingData">
-          <el-table-column
-            prop="title"
-            label="标题">
+        <el-table :data="tableList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
+          <el-table-column prop="name" label="分类"></el-table-column>
+          <el-table-column prop="addTime" label="添加时间"></el-table-column>
+          <el-table-column prop="description" label="描述">
+          </el-table-column>
+          <el-table-column prop="img" label="图片">
+            <template #default="scope">
+              <img style="width: 60px" :src="scope.row.img"/>
+            </template>
           </el-table-column>
           <el-table-column
-            prop="type"
-            label="类型">
+            fixed="right"
+            label="操作"
+            width="100">
+            <template #default="scope">
+              <el-button @click="openArticle(scope.row)" type="text" size="small"
+              >编辑
+              </el-button
+              >
+              <el-button type="text" size="small">删除</el-button>
+            </template>
           </el-table-column>
-          <el-table-column
-            prop="articleCategory.name"
-            label="分类">
-          </el-table-column>
-          <el-table-column
-            prop="count"
-            label="查看次数">
-          </el-table-column>
-          <el-table-column
-            prop="addTime"
-            label="发布时间">
-          </el-table-column>
-          <template #default="scope">
-            <el-button @click="openArticle(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">删除</el-button>
-          </template>
         </el-table>
         <div class="page-box flex-r">
-          <!--<el-page :total='total' :page-size="pageSize" :current="current" @on-change="changePage"-->
-          <!--show-elevator></el-page>-->
+          <el-page :total='total' :page-size="pageSize" :current="current" @on-change="changePage"
+                   show-elevator></el-page>
         </div>
       </div>
     </div>
@@ -48,6 +46,7 @@
 
 <script>
   import SideBar from '../../components/sideBar.vue'
+  import { getCategories } from '../../api/category'
 
   export default {
     name: '',
@@ -56,7 +55,7 @@
     },
     data() {
       return {
-        tableData: [],
+        tableList: [],
         current: 1,
         pageSize: 15,
         total: 0,
@@ -77,15 +76,46 @@
       }
     },
     methods: {
-      openArticle() {
+      //1.获取文章分类列表
+      getArticleCategories() {
+        console.log(111)
+        let current = this.current - 1
+        let params = {
+          appKey: sessionStorage.getItem('appKey'),
+          appSecret: sessionStorage.getItem('appSecret'),
+          page: this.current,
+          size: this.pageSize
+        }
+        getCategories(params, this).then(res => {
+          console.log(res)
+          if (res.data.code === 0) {
+            this.tableList = []
+            this.total = 0
+            this.loadingData = '暂无数据'
+          } else {
+            this.tableList = res.data.content
+            this.total = Number(res.data.totalElements)
+          }
 
+        }).catch(error => {
+          this.loadingData = '暂无数据'
+          console.log(error)
+        })
+      },
+      openArticle() {
       },
       //分页
-      changePage(){
-
+      changePage() {
       }
+    },
+    mounted() {
+      this.getArticleCategories()
     }
   }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+  .el-table td{
+    height: 100px;
+  }
+</style>

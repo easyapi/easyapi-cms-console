@@ -2,38 +2,28 @@
   <div class="container">
     <SideBar></SideBar>
     <div class="container-right">
-      <el-row class="set-title">
-        <el-col :span="2">
-          <h2><b>文章分类</b></h2>
-        </el-col>
-        <el-col :span="2">
-          <Button type="info" class="ea-info-btn" @click="operArticle(1)">添加文章</Button>
-        </el-col>
-      </el-row>
+      <div class="set-title">
+        <div>
+          <b>文章管理</b>
+        </div>
+        <el-button type="primary" class="ea-info-btn" @click="operArticle(1)"
+        >添加文章
+        </el-button
+        >
+      </div>
       <div class="set-content">
-        <el-table :data="tableData" :no-data-text="loadingData">
-          <el-table-column
-            prop="title"
-            label="标题">
+        <el-table :data="tableList">
+          <el-table-column  prop="title" label="标题"></el-table-column>
+          <el-table-column prop="type" label="类型"></el-table-column>
+          <el-table-column prop="articleCategory.name" label="分类">
           </el-table-column>
-          <el-table-column
-            prop="type"
-            label="类型">
-          </el-table-column>
-          <el-table-column
-            prop="articleCategory.name"
-            label="分类">
-          </el-table-column>
-          <el-table-column
-            prop="count"
-            label="查看次数">
-          </el-table-column>
-          <el-table-column
-            prop="addTime"
-            label="发布时间">
-          </el-table-column>
+          <el-table-column prop="count" label="查看次数"></el-table-column>
+          <el-table-column prop="addTime" label="发布时间"></el-table-column>
           <template #default="scope">
-            <el-button @click="openArticle(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="openArticle(scope.row)" type="text" size="small"
+            >编辑
+            </el-button
+            >
             <el-button type="text" size="small">删除</el-button>
           </template>
         </el-table>
@@ -48,6 +38,7 @@
 
 <script>
   import SideBar from '../../components/sideBar.vue'
+  import { getArticles } from '../../api/article'
 
   export default {
     name: '',
@@ -56,7 +47,7 @@
     },
     data() {
       return {
-        tableData: [],
+        tableList: [],
         current: 1,
         pageSize: 15,
         total: 0,
@@ -77,15 +68,44 @@
       }
     },
     methods: {
-      openArticle() {
+      //1.获取文章分类列表
+      getArticles() {
+        console.log(111)
+        let current = this.current - 1
+        let params = {
+          appKey: sessionStorage.getItem('appKey'),
+          appSecret: sessionStorage.getItem('appSecret'),
+          page: current,
+          size: this.pageSize
+        }
+        getArticles(params, this).then(res => {
+          console.log(res)
+          if (res.data.code === 0) {
+            this.tableList = []
+            this.total = 0
+            this.loadingData = '暂无数据'
+          } else {
+            this.tableList = res.data.content
+            this.total = Number(res.data.totalElements)
+          }
 
+        }).catch(error => {
+          this.loadingData = '暂无数据'
+          console.log(error)
+        })
+      },
+      openArticle() {
       },
       //分页
-      changePage(){
-
+      changePage() {
       }
+    },
+    mounted() {
+      this.getArticles()
     }
   }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>
