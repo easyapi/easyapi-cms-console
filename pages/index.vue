@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <SideBar></SideBar>
+    <div>
+
+    </div>
   </div>
 </template>
 
