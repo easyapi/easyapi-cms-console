@@ -6,7 +6,7 @@
         <div>
           <b>视频管理</b>
         </div>
-        <el-button type="primary" class="ea-info-btn" @click="operArticle(1)"
+        <el-button type="primary" class="ea-info-btn" @click="openVideo"
         >添加视频
         </el-button
         >
@@ -14,30 +14,32 @@
       <div class="set-content">
         <div>
           <div class="video-card">
-            <div class="video-card-item" style="margin-bottom:30px;margin-left:3%; width:21.25%"
+            <div class="video-card-item"
                  v-for="item in videoList"
                  :key="item.id">
               <el-card>
-                <div style="text-align:center">
-                  <img :src="item.img" alt=""
-                       style="width:100%;height:200px;object-fit:scale-down;  border-radius: 6px">
+                <div class="video-card-imgBox">
+                  <img class="video-card-img" :src="item.img">
                 </div>
               </el-card>
               <h3
-                style="text-align:center;white-space: nowrap; overflow: hidden; text-overflow:ellipsis;padding:5px 10px 0">
+                class="video-title">
                 {{item.title}}</h3>
-              <h4 style="color:#999; margin-top:5px; float:left;padding:5px 10px 0">
-                类型：{{item.articleCategory.name}}</h4>
-              <el-button type="danger" size="mini" style="float:right;  margin-top:8px; margin-right:20px"
-                         @click="deleteVideo(item.articleId)">删除
-              </el-button>
-              <el-button type="primary" size="mini" style="float:right;  margin-top:8px; margin-right:5px"
-                         @click="operArticle(0, item.articleId)">编辑
-              </el-button>
+              <span class="video-type">
+                类型：{{item.articleCategory.name}}</span>
+              <div>
+                <el-button class="video-delete" type="danger" size="mini"
+                           @click="deleteVideo(item.articleId)">删除
+                </el-button>
+                <el-button class="video-edit" type="primary" size="mini"
+                           @click="operArticle(0, item.articleId)">编辑
+                </el-button>
+              </div>
             </div>
             <div style="clear: both"></div>
           </div>
         </div>
+        <Addvideo ref="videoChild"></Addvideo>
         <Pagtination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
                      :total-elements="pagination.total" class="paging"></Pagtination>
         <div style="clear: both"></div>
@@ -49,13 +51,15 @@
 <script>
   import SideBar from '../../components/sideBar.vue'
   import Pagtination from '../../components/el-pagination/index'
+  import Addvideo from './components/addVideo'
   import { getArticles, deleteArticle } from '../../api/article'
 
   export default {
     name: '',
     components: {
       SideBar,
-      Pagtination
+      Pagtination,
+      Addvideo
     },
     data() {
       return {
@@ -99,7 +103,7 @@
           console.log(res)
           if (res.data.code === 0) {
             this.videoList = []
-            this.total = 0
+            this.pagination.total = 0
             this.loadingData = '暂无数据'
           } else {
             this.videoList = res.data.content
@@ -134,6 +138,11 @@
           })
         })
       },
+      //添加视频
+      openVideo() {
+        this.$refs.videoChild.dialogVisible = true
+        this.$refs.videoChild.title = '添加视频'
+      },
       //分页
       fatherSize(data) {
         this.pagination.size = data
@@ -156,10 +165,51 @@
 
   .video-card-item {
     float: left;
+    margin-bottom: 30px;
+    margin-left: 3%;
+    width: 21.25%;
+  }
+
+  .video-card-imgBox {
+    text-align: center
+  }
+
+  .video-card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: scale-down;
+    border-radius: 6px;
+  }
+
+  .video-title {
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 5px 10px 0;
+  }
+
+  .video-type {
+    color: #999;
+    margin-top: 5px;
+    float: left;
+    padding: 5px 10px 0;
   }
 
   .paging {
     margin-top: 30px;
     float: right;
+  }
+
+  .video-delete {
+    float: right;
+    margin-top: 8px;
+    margin-right: 5px;
+  }
+
+  .video-edit {
+    float: right;
+    margin-top: 8px;
+    margin-right: 5px;
   }
 </style>

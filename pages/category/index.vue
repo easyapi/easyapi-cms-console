@@ -35,11 +35,10 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="page-box flex-r">
-          <!--<el-page :total='total' :page-size="pageSize" :current="current" @on-change="changePage"-->
-          <!--show-elevator></el-page>-->
-        </div>
       </div>
+      <Pagtination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
+                   :total-elements="pagination.total" class="paging"></Pagtination>
+      <div style="clear: both"></div>
       <addCategory ref="child"></addCategory>
     </div>
   </div>
@@ -47,6 +46,7 @@
 
 <script>
   import SideBar from '../../components/sideBar.vue'
+  import Pagtination from '../../components/el-pagination/index'
   import AddCategory from './components/addCategory.vue'
   import { getCategories, deleteCategory } from '../../api/category'
 
@@ -54,14 +54,17 @@
     name: '',
     components: {
       SideBar,
-      AddCategory
+      AddCategory,
+      Pagtination
     },
     data() {
       return {
         tableList: [],
-        current: 1,
-        pageSize: 15,
-        total: 0,
+        pagination: {
+          page: 1,
+          size: 12,
+          total: 0
+        },
         loadingData: '加载中'
       }
     },
@@ -81,22 +84,22 @@
     methods: {
       //1.获取文章分类列表
       getArticleCategories() {
-        let current = this.current - 1
+        let page = this.pagination.page - 1
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
-          page: this.current,
-          size: this.pageSize
+          page: page,
+          size: this.pagination.size
         }
         getCategories(params, this).then(res => {
           console.log(res)
           if (res.data.code === 0) {
             this.tableList = []
-            this.total = 0
+            this.pagination.total = 0
             this.loadingData = '暂无数据'
           } else {
             this.tableList = res.data.content
-            this.total = Number(res.data.totalElements)
+            this.pagination.total = Number(res.data.totalElements)
           }
 
         }).catch(error => {
@@ -144,7 +147,13 @@
         })
       },
       //分页
-      changePage() {
+      fatherSize(data) {
+        this.pagination.size = data
+        this.getArticleCategories()
+      },
+      fatherCurrent(data) {
+        this.pagination.page = data
+        this.getArticleCategories()
       }
     }
     ,
@@ -157,5 +166,10 @@
 <style lang="scss">
   .el-table td {
     height: 100px;
+  }
+
+  .paging {
+    margin-top: 30px;
+    float: right;
   }
 </style>
