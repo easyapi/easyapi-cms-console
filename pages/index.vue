@@ -12,7 +12,7 @@
         >
       </div>
       <div class="set-content">
-        <el-table :data="tableList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
+        <el-table :data="articalList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
           <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="type" label="类型"></el-table-column>
           <el-table-column prop="articleCategory.name" label="分类">
@@ -49,7 +49,7 @@
     },
     data() {
       return {
-        tableList: [],
+        articalList: [],
         current: 1,
         pageSize: 15,
         total: 0,
@@ -70,7 +70,7 @@
       }
     },
     methods: {
-      //1.获取文章分类列表
+      //1.获取文章管理列表
       getArticles() {
         console.log(111)
         let current = this.current - 1
@@ -78,16 +78,17 @@
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
           page: current,
-          size: this.pageSize
+          size: this.pageSize,
+          type:"文章"
         }
         getArticles(params, this).then(res => {
           console.log(res)
           if (res.data.code === 0) {
-            this.tableList = []
+            this.articalList = []
             this.total = 0
             this.loadingData = '暂无数据'
           } else {
-            this.tableList = res.data.content
+            this.articalList = res.data.content
             this.total = Number(res.data.totalElements)
           }
 

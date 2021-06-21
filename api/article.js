@@ -6,7 +6,7 @@ import { serviceUrl } from './api'
  * @see https://www.easyai.com
  */
 export const getArticles = (params, contxt) => {
-  return contxt.$axios.get(`${serviceUrl}/api/articles`, params)
+  return contxt.$axios.get(`${serviceUrl}/api/articles`, { params: { ...params } })
 }
 
 /**
@@ -26,6 +26,6 @@ export const updateArticle = (data, id, contxt) => {
 /**
  * 删除文章
  */
-export const deleteArticle = (data, id, contxt) => {
-  return contxt.$axios.delete(`${serviceUrl}/api/article/${id}`, data)
+export const deleteArticle = (id, contxt) => {
+  return contxt.$axios.delete(`${serviceUrl}/api/article/${id}`)
 }
