@@ -31,7 +31,7 @@
               >编辑
               </el-button
               >
-              <el-button type="text" size="small">删除</el-button>
+              <el-button type="text" size="small" @click="deleteCategory(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -48,7 +48,7 @@
 <script>
   import SideBar from '../../components/sideBar.vue'
   import AddCategory from './components/addCategory.vue'
-  import { getCategories } from '../../api/category'
+  import { getCategories, deleteCategory } from '../../api/category'
 
   export default {
     name: '',
@@ -119,10 +119,35 @@
           this.$refs.child.formValidate = row
         })
       },
+      //删除文章分类
+      deleteCategory(row) {
+        this.$confirm('您确定要删除该分类吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let data = {}
+          deleteCategory(row.articleCategoryId, data, this).then(res => {
+            if (res.data.code == 1) {
+              this.getArticleCategories()
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+      },
       //分页
       changePage() {
       }
-    },
+    }
+    ,
     mounted() {
       this.getArticleCategories()
     }
