@@ -6,12 +6,12 @@
         <div>
           <b>视频管理</b>
         </div>
+      </div>
+      <el-divider></el-divider>
+      <div class="set-content">
         <el-button type="primary" class="ea-info-btn" @click="openVideo"
         >添加视频
-        </el-button
-        >
-      </div>
-      <div class="set-content">
+        </el-button>
         <div>
           <div class="video-card">
             <div class="video-card-item"
@@ -131,11 +131,6 @@
               })
             }
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
         })
       },
       //添加视频
@@ -221,5 +216,9 @@
     float: right;
     margin-top: 8px;
     margin-right: 5px;
+  }
+
+  .ea-info-btn {
+    margin-bottom: 24px;
   }
 </style>

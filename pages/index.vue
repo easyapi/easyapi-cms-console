@@ -6,12 +6,12 @@
         <div>
           <b>文章管理</b>
         </div>
+      </div>
+      <el-divider></el-divider>
+      <div class="set-content">
         <el-button type="primary" class="ea-info-btn" @click="operArticle(1)"
         >添加文章
-        </el-button
-        >
-      </div>
-      <div class="set-content">
+        </el-button>
         <el-table :data="articalList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
           <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="type" label="类型"></el-table-column>
@@ -21,11 +21,11 @@
           <el-table-column prop="addTime" label="发布时间"></el-table-column>
           <el-table-column>
             <template #default="scope">
-              <el-button @click="openArticle(scope.row)" type="text" size="small"
+              <el-button type="primary" @click="openArticle(scope.row)" size="mini"
               >编辑
               </el-button
               >
-              <el-button type="text" size="small">删除</el-button>
+              <el-button type="danger" size="mini">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -124,5 +124,9 @@
   .paging {
     margin-top: 30px;
     float: right;
+  }
+
+  .ea-info-btn{
+    margin-bottom: 24px;
   }
 </style>

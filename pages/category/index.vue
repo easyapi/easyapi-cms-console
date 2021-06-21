@@ -6,12 +6,12 @@
         <div>
           <b>文章分类</b>
         </div>
+      </div>
+      <el-divider></el-divider>
+      <div class="set-content">
         <el-button type="primary" class="ea-info-btn" @click="openCategory"
         >添加分类
-        </el-button
-        >
-      </div>
-      <div class="set-content">
+        </el-button>
         <el-table :data="tableList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
           <el-table-column prop="name" label="分类"></el-table-column>
           <el-table-column prop="addTime" label="添加时间"></el-table-column>
@@ -24,14 +24,13 @@
           </el-table-column>
           <el-table-column
             fixed="right"
-            label="操作"
-            width="100">
+            label="操作">
             <template #default="scope">
-              <el-button @click="updateCategory(scope.row)" type="text" size="small"
+              <el-button @click="updateCategory(scope.row)" type="primary" size="mini"
               >编辑
               </el-button
               >
-              <el-button type="text" size="small" @click="deleteCategory(scope.row)">删除</el-button>
+              <el-button type="danger" size="mini" @click="deleteCategory(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -139,11 +138,6 @@
               })
             }
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
         })
       },
       //分页
@@ -171,5 +165,9 @@
   .paging {
     margin-top: 30px;
     float: right;
+  }
+
+  .ea-info-btn{
+    margin-bottom: 24px;
   }
 </style>
