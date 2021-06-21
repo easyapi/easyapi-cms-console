@@ -6,7 +6,7 @@
         <div>
           <b>文章分类</b>
         </div>
-        <el-button type="primary" class="ea-info-btn" @click="operArticle(1)"
+        <el-button type="primary" class="ea-info-btn" @click="openCategory"
         >添加分类
         </el-button
         >
@@ -27,7 +27,7 @@
             label="操作"
             width="100">
             <template #default="scope">
-              <el-button @click="openArticle(scope.row)" type="text" size="small"
+              <el-button @click="updateCategory(scope.row)" type="text" size="small"
               >编辑
               </el-button
               >
@@ -36,22 +36,25 @@
           </el-table-column>
         </el-table>
         <div class="page-box flex-r">
-          <el-page :total='total' :page-size="pageSize" :current="current" @on-change="changePage"
-                   show-elevator></el-page>
+          <!--<el-page :total='total' :page-size="pageSize" :current="current" @on-change="changePage"-->
+          <!--show-elevator></el-page>-->
         </div>
       </div>
+      <addCategory ref="child"></addCategory>
     </div>
   </div>
 </template>
 
 <script>
   import SideBar from '../../components/sideBar.vue'
+  import AddCategory from './components/addCategory.vue'
   import { getCategories } from '../../api/category'
 
   export default {
     name: '',
     components: {
-      SideBar
+      SideBar,
+      AddCategory
     },
     data() {
       return {
@@ -78,7 +81,6 @@
     methods: {
       //1.获取文章分类列表
       getArticleCategories() {
-        console.log(111)
         let current = this.current - 1
         let params = {
           appKey: sessionStorage.getItem('appKey'),
@@ -102,7 +104,20 @@
           console.log(error)
         })
       },
-      openArticle() {
+      //添加分类
+      openCategory() {
+        this.$refs.child.dialogVisible = true
+        this.$refs.child.title = '添加分类'
+        this.$refs.child.formValidate = this.$options.data()
+      },
+      //编辑分类
+      updateCategory(row) {
+        this.$refs.child.dialogVisible = true
+        this.$refs.child.title = '编辑分类'
+        this.$refs.child.articleCategoryId = row.articleCategoryId
+        this.$nextTick(() => {
+          this.$refs.child.formValidate = row
+        })
       },
       //分页
       changePage() {
@@ -115,7 +130,7 @@
 </script>
 
 <style lang="scss">
-  .el-table td{
+  .el-table td {
     height: 100px;
   }
 </style>
