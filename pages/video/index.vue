@@ -32,7 +32,7 @@
                            @click="deleteVideo(item.articleId)">删除
                 </el-button>
                 <el-button class="video-edit" type="primary" size="mini"
-                           @click="operArticle(0, item.articleId)">编辑
+                           @click="updateVideo(item)">编辑
                 </el-button>
               </div>
             </div>
@@ -142,6 +142,16 @@
       openVideo() {
         this.$refs.videoChild.dialogVisible = true
         this.$refs.videoChild.title = '添加视频'
+        this.$refs.videoChild.videoForm = this.$options.data()
+      },
+      //编辑视频
+      updateVideo(item) {
+        console.log(item)
+        this.$refs.videoChild.dialogVisible = true
+        this.$refs.videoChild.title = '编辑视频'
+        this.$refs.videoChild.videoForm = item
+        this.$refs.videoChild.articleId = item.articleId
+        this.$refs.videoChild.videoForm.articleCategoryId = item.articleCategory.articleCategoryId
       },
       //分页
       fatherSize(data) {

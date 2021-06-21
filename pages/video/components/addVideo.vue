@@ -26,7 +26,7 @@
             :multiple="false"
             :show-file-list="false"
             :on-success="handleAvatarSuccess">
-            <img v-if="videoForm.img" :src="videoForm.img" class="avatar">
+            <img v-if="videoForm.img" :src="videoForm.img" @click="getImg" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon" @click="getImg"></i>
           </el-upload>
         </div>
@@ -43,7 +43,8 @@
             :before-upload="beforeUploadVideo"
             :on-progress="uploadVideoProcess"
           >
-            <video v-if="videoForm.video&&this.videoFlag==false" :src="videoForm.video" class="avatar">
+            <video v-if="videoForm.video&&this.videoFlag==false" @click="getVideo" :src="videoForm.video"
+                   class="avatar">
             </video>
             <i v-else-if="videoForm.video==''&&this.videoFlag==false" @click="getVideo"
                class="el-icon-plus avatar-uploader-icon"></i>
@@ -63,8 +64,8 @@
 
 <script>
   import { getQiniuKey, getQiniuToken } from '../../../api/qiniu'
-  import { updateCategory, getCategories } from '../../../api/category'
-  import { postArticle } from '../../../api/article'
+  import { getCategories } from '../../../api/category'
+  import { postArticle, updateArticle } from '../../../api/article'
 
   export default {
     name: 'addVideo',
@@ -83,9 +84,9 @@
           title: [
             { required: true, message: '请输入视频标题', trigger: 'blur' }
           ],
-          articleCategoryId: [
-            { required: true, message: '请选择视频类型', trigger: 'change' }
-          ],
+          // articleCategoryId: [
+          //   { required: true, message: '请选择视频类型', trigger: 'change' }
+          // ],
           img: [
             { required: true, message: '请上传视频封面', trigger: 'change' }
           ],
@@ -95,7 +96,7 @@
         },
         dataObj: { token: '', key: '' },
         videoObj: { token: '', key: '' },
-        articleCategoryId: '',
+        articleId: '',
         videoFlag: false
       }
     },
@@ -197,15 +198,14 @@
               }).catch(error => {
                 console.log(error.response)
               })
-            } else if (this.title === '编辑分类') {
-              updateCategory(this.articleCategoryId, data, this).then(res => {
+            } else if (this.title === '编辑视频') {
+              updateArticle(this.articleId, data, this).then(res => {
                 if (res.data.code === 1) {
                   this.$message.success('编辑成功!')
-                  this.$parent.getArticleCategories()
+                  this.$parent.getArticles()
                   this.dialogVisible = false
                   this.$refs[formName].resetFields()
                 }
-
               }).catch(error => {
                 console.log(error.response)
               })

@@ -19,7 +19,8 @@ export const postArticle = (data, contxt) => {
 /**
  * 修改文章
  */
-export const updateArticle = (data, id, contxt) => {
+export const updateArticle = (id, data, contxt
+) => {
   return contxt.$axios.put(`${serviceUrl}/api/article/${id}`, data)
 }
 
