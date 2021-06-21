@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <SideBar></SideBar>
-    <div class="container-right">
-      <div class="set-title">
+    <div class="main">
+      <div class="main-title">
         <div>
           <b>视频管理</b>
         </div>
       </div>
       <el-divider></el-divider>
-      <div class="set-content">
+      <div class="main-content">
         <el-button type="primary" class="ea-info-btn" @click="openVideo"
         >添加视频
         </el-button>

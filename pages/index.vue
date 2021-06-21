@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <SideBar></SideBar>
-    <div class="container-right">
-      <div class="set-title">
+    <div class="main">
+      <div class="main-title">
         <div>
           <b>文章管理</b>
         </div>
       </div>
       <el-divider></el-divider>
-      <div class="set-content">
+      <div class="main-content">
         <el-button type="primary" class="ea-info-btn" @click="operArticle(1)"
         >添加文章
         </el-button>
@@ -40,7 +40,7 @@
 <script>
   import SideBar from '../components/sideBar.vue'
   import Pagtination from '../components/el-pagination/index'
-  import { getArticles } from '../api/article'
+  import {getArticles} from '../api/article'
 
   export default {
     name: '',
@@ -68,7 +68,7 @@
             name: 'description',
             content: '服务市场场景化服务'
           },
-          { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' }
+          {hid: 'keyword', name: 'keyword', content: '服务市场场景化服务'}
         ]
       }
     },
@@ -126,7 +126,7 @@
     float: right;
   }
 
-  .ea-info-btn{
+  .ea-info-btn {
     margin-bottom: 24px;
   }
 </style>

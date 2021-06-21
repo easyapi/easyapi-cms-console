@@ -86,7 +86,7 @@ img {
   display: flex;
 }
 
-.container-right {
+.main {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -98,13 +98,13 @@ img {
   margin-left: 210px;
 }
 
-.set-title {
+.main-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.set-title b {
+.main-title b {
   font-size: 20px;
 }
 
@@ -120,7 +120,7 @@ img {
   margin-right: 10px;
 }
 
-.set-content{
+.main-content {
   margin-top: 10px;
 }
 

@@ -43,7 +43,7 @@
 <style scoped lang="scss">
   .sideBar {
     position: absolute;
-    top:10px;
+    top: 10px;
     left: 10px;
     bottom: 10px;
     overflow: auto;

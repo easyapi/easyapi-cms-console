@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <SideBar></SideBar>
-    <div class="container-right">
-      <div class="set-title">
+    <div class="main">
+      <div class="main-title">
         <div>
           <b>文章管理</b>
         </div>
@@ -11,9 +11,9 @@
         </el-button
         >
       </div>
-      <div class="set-content">
+      <div class="main-content">
         <el-table :data="articalList">
-          <el-table-column  prop="title" label="标题"></el-table-column>
+          <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="type" label="类型"></el-table-column>
           <el-table-column prop="articleCategory.name" label="分类">
           </el-table-column>
@@ -38,7 +38,7 @@
 
 <script>
   import SideBar from '../../components/sideBar.vue'
-  import { getArticles } from '../../api/article'
+  import {getArticles} from '../../api/article'
 
   export default {
     name: '',
@@ -63,30 +63,28 @@
             name: 'description',
             content: '服务市场场景化服务'
           },
-          { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' }
+          {hid: 'keyword', name: 'keyword', content: '服务市场场景化服务'}
         ]
       }
     },
     methods: {
       //1.获取文章管理列表
       getArticles() {
-        console.log(111)
         let current = this.current - 1
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
           page: current,
           size: this.pageSize,
-          type:"文章"
-        }
+          type: "文章"
+        };
         getArticles(params, this).then(res => {
-          console.log(res)
           if (res.data.code === 0) {
-            this.articalList = []
-            this.total = 0
+            this.articalList = [];
+            this.total = 0;
             this.loadingData = '暂无数据'
           } else {
-            this.articalList = res.data.content
+            this.articalList = res.data.content;
             this.total = Number(res.data.totalElements)
           }
 

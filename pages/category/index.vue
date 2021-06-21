@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <SideBar></SideBar>
-    <div class="container-right">
-      <div class="set-title">
+    <div class="main">
+      <div class="main-title">
         <div>
           <b>文章分类</b>
         </div>
       </div>
       <el-divider></el-divider>
-      <div class="set-content">
+      <div class="main-content">
         <el-button type="primary" class="ea-info-btn" @click="openCategory"
         >添加分类
         </el-button>
@@ -47,7 +47,7 @@
   import SideBar from '../../components/sideBar.vue'
   import Pagtination from '../../components/el-pagination/index'
   import AddCategory from './components/addCategory.vue'
-  import { getCategories, deleteCategory } from '../../api/category'
+  import {getCategories, deleteCategory} from '../../api/category'
 
   export default {
     name: '',
@@ -76,7 +76,7 @@
             name: 'description',
             content: '服务市场场景化服务'
           },
-          { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' }
+          {hid: 'keyword', name: 'keyword', content: '服务市场场景化服务'}
         ]
       }
     },
@@ -89,34 +89,33 @@
           appSecret: sessionStorage.getItem('appSecret'),
           page: page,
           size: this.pagination.size
-        }
+        };
         getCategories(params, this).then(res => {
-          console.log(res)
           if (res.data.code === 0) {
-            this.tableList = []
-            this.pagination.total = 0
+            this.tableList = [];
+            this.pagination.total = 0;
             this.loadingData = '暂无数据'
           } else {
-            this.tableList = res.data.content
+            this.tableList = res.data.content;
             this.pagination.total = Number(res.data.totalElements)
           }
 
         }).catch(error => {
-          this.loadingData = '暂无数据'
+          this.loadingData = '暂无数据';
           console.log(error)
         })
       },
       //添加分类
       openCategory() {
-        this.$refs.child.dialogVisible = true
-        this.$refs.child.title = '添加分类'
+        this.$refs.child.dialogVisible = true;
+        this.$refs.child.title = '添加分类';
         this.$refs.child.formValidate = this.$options.data()
       },
       //编辑分类
       updateCategory(row) {
-        this.$refs.child.dialogVisible = true
-        this.$refs.child.title = '编辑分类'
-        this.$refs.child.articleCategoryId = row.articleCategoryId
+        this.$refs.child.dialogVisible = true;
+        this.$refs.child.title = '编辑分类';
+        this.$refs.child.articleCategoryId = row.articleCategoryId;
         this.$nextTick(() => {
           this.$refs.child.formValidate = row
         })
@@ -130,8 +129,8 @@
         }).then(() => {
           let data = {}
           deleteCategory(row.articleCategoryId, data, this).then(res => {
-            if (res.data.code == 1) {
-              this.getArticleCategories()
+            if (res.data.code === 1) {
+              this.getArticleCategories();
               this.$message({
                 type: 'success',
                 message: '删除成功!'
@@ -142,11 +141,11 @@
       },
       //分页
       fatherSize(data) {
-        this.pagination.size = data
+        this.pagination.size = data;
         this.getArticleCategories()
       },
       fatherCurrent(data) {
-        this.pagination.page = data
+        this.pagination.page = data;
         this.getArticleCategories()
       }
     }
@@ -167,7 +166,7 @@
     float: right;
   }
 
-  .ea-info-btn{
+  .ea-info-btn {
     margin-bottom: 24px;
   }
 </style>
