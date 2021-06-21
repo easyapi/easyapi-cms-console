@@ -21,20 +21,20 @@
                 <div class="video-card-imgBox">
                   <img class="video-card-img" :src="item.img">
                 </div>
-              </el-card>
-              <h3
-                class="video-title">
-                {{item.title}}</h3>
-              <span class="video-type">
+                <h3
+                  class="video-title">
+                  {{item.title}}</h3>
+                <div class="video-bottom">
+                  <span class="video-type">
                 类型：{{item.articleCategory.name}}</span>
-              <div>
-                <el-button class="video-delete" type="danger" size="mini"
-                           @click="deleteVideo(item.articleId)">删除
-                </el-button>
-                <el-button class="video-edit" type="primary" size="mini"
-                           @click="updateVideo(item)">编辑
-                </el-button>
-              </div>
+                  <el-button class="video-delete" type="danger" size="mini"
+                             @click="deleteVideo(item.articleId)">删除
+                  </el-button>
+                  <el-button class="video-edit" type="primary" size="mini"
+                             @click="updateVideo(item)">编辑
+                  </el-button>
+                </div>
+              </el-card>
             </div>
             <div style="clear: both"></div>
           </div>
@@ -204,6 +204,11 @@
   .paging {
     margin-top: 30px;
     float: right;
+  }
+
+  .video-bottom {
+    margin-top: 10px;
+    height: 40px;
   }
 
   .video-delete {
