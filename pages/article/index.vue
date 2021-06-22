@@ -25,7 +25,7 @@
               >编辑
               </el-button
               >
-              <el-button type="danger" size="mini">删除</el-button>
+              <el-button @click="deleteArticle(scope.row)" type="danger" size="mini">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -42,7 +42,7 @@
   import SideBar from '../../components/sideBar.vue'
   import Pagtination from '../../components/el-pagination/index'
   import AddArticle from './components/addArticle'
-  import { getArticles } from '../../api/article'
+  import { getArticles, deleteArticle } from '../../api/article'
 
   export default {
     name: '',
@@ -106,17 +106,35 @@
       //添加文章
       openArticle() {
         this.$refs.articleChild.dialogVisible = true
-        this.$refs.articleChild.title = "添加文章"
+        this.$refs.articleChild.title = '添加文章'
         this.$refs.articleChild.articleForm = this.$options.data()
       },
       //修改文章
-      updateArticle(row){
+      updateArticle(row) {
         this.$refs.articleChild.dialogVisible = true
-        this.$refs.articleChild.title = "编辑文章"
+        this.$refs.articleChild.title = '编辑文章'
         this.$refs.articleChild.articleForm = row
         this.$refs.articleChild.articleId = row.articleId
         this.$refs.articleChild.articleForm.articleCategoryId = row.articleCategory.articleCategoryId
-
+      },
+      //删除文章
+      deleteArticle(row) {
+        this.$confirm('您确定要删除该文章吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteArticle(row.articleId, this).then(res => {
+            console.log(res)
+            if (res.data.code == 1) {
+              this.getArticles()
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }
+          })
+        })
       },
       //分页
       fatherSize(data) {
