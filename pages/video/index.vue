@@ -141,7 +141,6 @@
       },
       //编辑视频
       updateVideo(item) {
-        console.log(item)
         this.$refs.videoChild.dialogVisible = true
         this.$refs.videoChild.title = '编辑视频'
         this.$refs.videoChild.videoForm = item

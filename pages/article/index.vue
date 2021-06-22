@@ -6,51 +6,59 @@
         <div>
           <b>文章管理</b>
         </div>
-        <el-button type="primary" class="ea-info-btn" @click="operArticle(1)"
-        >添加文章
-        </el-button
-        >
       </div>
+      <el-divider></el-divider>
       <div class="main-content">
-        <el-table :data="articalList">
+        <el-button type="primary" class="ea-info-btn" @click="openArticle"
+        >添加文章
+        </el-button>
+        <el-table :data="articalList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
           <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="type" label="类型"></el-table-column>
           <el-table-column prop="articleCategory.name" label="分类">
           </el-table-column>
           <el-table-column prop="count" label="查看次数"></el-table-column>
           <el-table-column prop="addTime" label="发布时间"></el-table-column>
-          <template #default="scope">
-            <el-button @click="openArticle(scope.row)" type="text" size="small"
-            >编辑
-            </el-button
-            >
-            <el-button type="text" size="small">删除</el-button>
-          </template>
+          <el-table-column>
+            <template #default="scope">
+              <el-button type="primary" @click="updateArticle(scope.row)" size="mini"
+              >编辑
+              </el-button
+              >
+              <el-button type="danger" size="mini">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
-        <div class="page-box flex-r">
-          <!--<el-page :total='total' :page-size="pageSize" :current="current" @on-change="changePage"-->
-          <!--show-elevator></el-page>-->
-        </div>
       </div>
+      <Pagtination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
+                   :total-elements="pagination.total" class="paging"></Pagtination>
+      <div style="clear: both"></div>
+      <AddArticle ref="articleChild"></AddArticle>
     </div>
   </div>
 </template>
 
 <script>
   import SideBar from '../../components/sideBar.vue'
-  import {getArticles} from '../../api/article'
+  import Pagtination from '../../components/el-pagination/index'
+  import AddArticle from './components/addArticle'
+  import { getArticles } from '../../api/article'
 
   export default {
     name: '',
     components: {
-      SideBar
+      SideBar,
+      Pagtination,
+      AddArticle
     },
     data() {
       return {
         articalList: [],
-        current: 1,
-        pageSize: 15,
-        total: 0,
+        pagination: {
+          page: 1,
+          size: 12,
+          total: 0
+        },
         loadingData: '加载中'
       }
     },
@@ -63,29 +71,31 @@
             name: 'description',
             content: '服务市场场景化服务'
           },
-          {hid: 'keyword', name: 'keyword', content: '服务市场场景化服务'}
+          { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' }
         ]
       }
     },
     methods: {
       //1.获取文章管理列表
       getArticles() {
-        let current = this.current - 1
+        console.log(111)
+        let page = this.pagination.page - 1
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
-          page: current,
-          size: this.pageSize,
-          type: "文章"
-        };
+          page: page,
+          size: this.pagination.size,
+          type: '文章'
+        }
         getArticles(params, this).then(res => {
+          console.log(res)
           if (res.data.code === 0) {
-            this.articalList = [];
-            this.total = 0;
+            this.articalList = []
+            this.pagination.total = 0
             this.loadingData = '暂无数据'
           } else {
-            this.articalList = res.data.content;
-            this.total = Number(res.data.totalElements)
+            this.articalList = res.data.content
+            this.pagination.total = Number(res.data.totalElements)
           }
 
         }).catch(error => {
@@ -93,10 +103,29 @@
           console.log(error)
         })
       },
+      //添加文章
       openArticle() {
+        this.$refs.articleChild.dialogVisible = true
+        this.$refs.articleChild.title = "添加文章"
+        this.$refs.articleChild.articleForm = this.$options.data()
+      },
+      //修改文章
+      updateArticle(row){
+        this.$refs.articleChild.dialogVisible = true
+        this.$refs.articleChild.title = "编辑文章"
+        this.$refs.articleChild.articleForm = row
+        this.$refs.articleChild.articleId = row.articleId
+        this.$refs.articleChild.articleForm.articleCategoryId = row.articleCategory.articleCategoryId
+
       },
       //分页
-      changePage() {
+      fatherSize(data) {
+        this.pagination.size = data
+        this.getArticles()
+      },
+      fatherCurrent(data) {
+        this.pagination.page = data
+        this.getArticles()
       }
     },
     mounted() {
@@ -105,6 +134,17 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  .el-table td {
+    height: 100px;
+  }
 
+  .paging {
+    margin-top: 30px;
+    float: right;
+  }
+
+  .ea-info-btn {
+    margin-bottom: 24px;
+  }
 </style>

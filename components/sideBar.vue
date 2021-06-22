@@ -21,7 +21,7 @@
         sideBarList: [
           {
             title: '文章管理',
-            path: '/'
+            path: '/article'
           },
           {
             title: '视频管理',
@@ -35,7 +35,7 @@
       }
     },
     mounted() {
-      this.activePath = this.$route.path ? `${this.$route.path}` : '/'
+      this.activePath = this.$route.path ? `${this.$route.path}` : '/article'
     }
   }
 </script>

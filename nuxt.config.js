@@ -16,9 +16,16 @@ module.exports = {
   },
   css: [
     '@/assets/css/common.css',
-    '@/assets/scss/element-variables.scss'
+    '@/assets/scss/element-variables.scss',
+    'quill/dist/quill.snow.css',
+    'quill/dist/quill.bubble.css',
+    'quill/dist/quill.core.css'
   ],
-  plugins: ['@/plugins/element-ui', '@/plugins/axios'],
+  plugins: [
+    '@/plugins/element-ui',
+    '@/plugins/axios',
+    { src: '@/plugins/nuxt-quill-plugin', ssr: false }
+  ],
   /*
   ** Customize the progress bar color
   */
@@ -33,8 +40,8 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    transpile: [/^element-ui/],
-    extend (config, ctx) {
+    transpile: [/^element-ui/,'vue-quill-editor'],
+    extend(config, ctx) {
     },
     maxChunkSize: 300000, // 单个包最大尺寸
     extractCSS: true // 单独提取CSS

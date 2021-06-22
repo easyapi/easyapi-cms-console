@@ -9,7 +9,7 @@
       </div>
       <el-divider></el-divider>
       <div class="main-content">
-        <el-button type="primary" class="ea-info-btn" @click="operArticle(1)"
+        <el-button type="primary" class="ea-info-btn" @click="openArticle"
         >添加文章
         </el-button>
         <el-table :data="articalList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
@@ -33,6 +33,7 @@
       <Pagtination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
                    :total-elements="pagination.total" class="paging"></Pagtination>
       <div style="clear: both"></div>
+      <AddArticle ref="articleChild"></AddArticle>
     </div>
   </div>
 </template>
@@ -40,13 +41,18 @@
 <script>
   import SideBar from '../components/sideBar.vue'
   import Pagtination from '../components/el-pagination/index'
-  import {getArticles} from '../api/article'
+  import AddArticle from './article/components/addArticle'
+  import { getArticles } from '../api/article'
 
   export default {
-    name: '',
+    name: 'homePage',
+    middleware({ store, route, redirect, params, query, req, res }) {
+      redirect('/article') // 默认跳转页面的路由
+    },
     components: {
       SideBar,
-      Pagtination
+      Pagtination,
+      AddArticle
     },
     data() {
       return {
@@ -68,7 +74,7 @@
             name: 'description',
             content: '服务市场场景化服务'
           },
-          {hid: 'keyword', name: 'keyword', content: '服务市场场景化服务'}
+          { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' }
         ]
       }
     },
@@ -99,6 +105,10 @@
           this.loadingData = '暂无数据'
           console.log(error)
         })
+      },
+      //添加文章
+      openArticle() {
+        this.$refs.articleChild.dialogVisible = true
       },
       //分页
       fatherSize(data) {
