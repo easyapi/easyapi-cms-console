@@ -35,7 +35,7 @@
 
 <script>
   import { getQiniuKey, getQiniuToken } from '../../../api/qiniu'
-  import { postCategory, updateCategory } from '../../../api/category'
+  import { createArticleCategory, updateArticleCategory } from '../../../api/article-category'
 
   export default {
     name: 'addCategory',
@@ -61,7 +61,7 @@
       }
     },
     mounted() {
-      this.getQiniuToken()
+      this.getQiniuToken();
       this.getQiniuKey()
     },
     methods: {
@@ -81,8 +81,8 @@
         })
       },
       handleAvatarSuccess(res, file) {
-        let img = 'https://qiniu.easyapi.com/' + res.key
-        file.url = img
+        let img = 'https://qiniu.easyapi.com/' + res.key;
+        file.url = img;
         this.formValidate.img = img
       },
       confirm(formName) {
@@ -94,12 +94,12 @@
               img: this.formValidate.img,
               appKey: sessionStorage.getItem('appKey'),
               appSecret: sessionStorage.getItem('appSecret')
-            }
+            };
             if (this.title === '添加分类') {
-              postCategory(data, this).then(res => {
+              createArticleCategory(data, this).then(res => {
                 if (res.data.code === 1) {
-                  this.$message.success('添加成功!')
-                  this.$parent.getArticleCategories()
+                  this.$message.success('添加成功!');
+                  this.$parent.getArticleCategories();
                   this.dialogVisible = false
                   this.$refs[formName].resetFields()
                 }
@@ -107,11 +107,11 @@
                 console.log(error.response)
               })
             } else if (this.title === '编辑分类') {
-              updateCategory(this.articleCategoryId, data, this).then(res => {
+              updateArticleCategory(this.articleCategoryId, data, this).then(res => {
                 if (res.data.code === 1) {
-                  this.$message.success('编辑成功!')
-                  this.$parent.getArticleCategories()
-                  this.dialogVisible = false
+                  this.$message.success('编辑成功!');
+                  this.$parent.getArticleCategories();
+                  this.dialogVisible = false;
                   this.$refs[formName].resetFields()
                 }
 

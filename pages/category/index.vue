@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <SideBar></SideBar>
+    <Aside></Aside>
     <div class="main">
       <div class="main-title">
         <div>
@@ -26,35 +26,35 @@
             fixed="right"
             label="操作">
             <template #default="scope">
-              <el-button @click="updateCategory(scope.row)" type="primary" size="mini"
+              <el-button @click="updateArticleCategory(scope.row)" type="primary" size="mini"
               >编辑
               </el-button
               >
-              <el-button type="danger" size="mini" @click="deleteCategory(scope.row)">删除</el-button>
+              <el-button type="danger" size="mini" @click="deleteArticleCategory(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
-      <Pagtination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
-                   :total-elements="pagination.total" class="paging"></Pagtination>
+      <Pagination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
+                  :total-elements="pagination.total" class="paging"></Pagination>
       <div style="clear: both"></div>
-      <addCategory ref="child"></addCategory>
+      <Edit ref="child"></Edit>
     </div>
   </div>
 </template>
 
 <script>
-  import SideBar from '../../components/sideBar.vue'
-  import Pagtination from '../../components/el-pagination/index'
-  import AddCategory from './components/addCategory.vue'
-  import {getCategories, deleteCategory} from '../../api/category'
+  import Aside from '../../components/Aside/index.vue'
+  import Pagination from '../../components/Pagination/index'
+  import Edit from './components/edit.vue'
+  import {getArticleCategoryList, deleteArticleCategory} from '../../api/article-category'
 
   export default {
     name: '',
     components: {
-      SideBar,
-      AddCategory,
-      Pagtination
+      Aside,
+      Edit,
+      Pagination
     },
     data() {
       return {
@@ -71,26 +71,24 @@
       return {
         title: '金融专辑 - EasyAPI服务市场',
         meta: [
-          {
-            hid: 'description',
-            name: 'description',
-            content: '服务市场场景化服务'
-          },
+          {hid: 'description', name: 'description', content: '服务市场场景化服务'},
           {hid: 'keyword', name: 'keyword', content: '服务市场场景化服务'}
         ]
       }
     },
     methods: {
-      //1.获取文章分类列表
+      /**
+       * 获取文章分类列表
+       */
       getArticleCategories() {
-        let page = this.pagination.page - 1
+        let page = this.pagination.page - 1;
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
           page: page,
           size: this.pagination.size
         };
-        getCategories(params, this).then(res => {
+        getArticleCategoryList(params, this).then(res => {
           if (res.data.code === 0) {
             this.tableList = [];
             this.pagination.total = 0;
@@ -99,7 +97,6 @@
             this.tableList = res.data.content;
             this.pagination.total = Number(res.data.totalElements)
           }
-
         }).catch(error => {
           this.loadingData = '暂无数据';
           console.log(error)
@@ -112,7 +109,7 @@
         this.$refs.child.formValidate = this.$options.data()
       },
       //编辑分类
-      updateCategory(row) {
+      updateArticleCategory(row) {
         this.$refs.child.dialogVisible = true;
         this.$refs.child.title = '编辑分类';
         this.$refs.child.articleCategoryId = row.articleCategoryId;
@@ -121,14 +118,14 @@
         })
       },
       //删除文章分类
-      deleteCategory(row) {
+      deleteArticleCategory(row) {
         this.$confirm('您确定要删除该分类吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           let data = {}
-          deleteCategory(row.articleCategoryId, data, this).then(res => {
+          deleteArticleCategory(row.articleCategoryId, data, this).then(res => {
             if (res.data.code === 1) {
               this.getArticleCategories();
               this.$message({

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <SideBar></SideBar>
+    <Aside></Aside>
     <div class="main">
       <div class="main-title">
         <div>
@@ -39,9 +39,9 @@
             <div style="clear: both"></div>
           </div>
         </div>
-        <Addvideo ref="videoChild"></Addvideo>
-        <Pagtination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
-                     :total-elements="pagination.total" class="paging"></Pagtination>
+        <Edit ref="videoChild"></Edit>
+        <Pagination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
+                     :total-elements="pagination.total" class="paging"></Pagination>
         <div style="clear: both"></div>
       </div>
     </div>
@@ -49,17 +49,17 @@
 </template>
 
 <script>
-  import SideBar from '../../components/sideBar.vue'
-  import Pagtination from '../../components/el-pagination/index'
-  import Addvideo from './components/addVideo'
-  import { getArticles, deleteArticle } from '../../api/article'
+  import Aside from '../../components/Aside/index.vue'
+  import Pagination from '../../components/Pagination/index'
+  import Edit from './components/edit'
+  import { getArticleList, deleteArticle } from '../../api/article'
 
   export default {
     name: '',
     components: {
-      SideBar,
-      Pagtination,
-      Addvideo
+      Aside,
+      Pagination,
+      Edit
     },
     data() {
       return {
@@ -86,12 +86,12 @@
       }
     },
     mounted() {
-      this.getArticles()
+      this.getArticleList()
     },
     methods: {
       //1.获取视频管理列表
-      getArticles() {
-        let page = this.pagination.page - 1
+      getArticleList() {
+        let page = this.pagination.page - 1;
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
@@ -99,8 +99,7 @@
           size: this.pagination.size,
           type: '视频'
         }
-        getArticles(params, this).then(res => {
-          console.log(res)
+        getArticleList(params, this).then(res => {
           if (res.data.code === 0) {
             this.videoList = []
             this.pagination.total = 0
@@ -122,9 +121,8 @@
           type: 'warning'
         }).then(() => {
           deleteArticle(id, this).then(res => {
-            console.log(res)
-            if (res.data.code == 1) {
-              this.getArticles()
+            if (res.data.code === 1) {
+              this.getArticleList();
               this.$message({
                 type: 'success',
                 message: '删除成功!'
@@ -135,26 +133,26 @@
       },
       //添加视频
       openVideo() {
-        this.$refs.videoChild.dialogVisible = true
-        this.$refs.videoChild.title = '添加视频'
+        this.$refs.videoChild.dialogVisible = true;
+        this.$refs.videoChild.title = '添加视频';
         this.$refs.videoChild.videoForm = this.$options.data()
       },
       //编辑视频
       updateVideo(item) {
-        this.$refs.videoChild.dialogVisible = true
-        this.$refs.videoChild.title = '编辑视频'
-        this.$refs.videoChild.videoForm = item
-        this.$refs.videoChild.articleId = item.articleId
+        this.$refs.videoChild.dialogVisible = true;
+        this.$refs.videoChild.title = '编辑视频';
+        this.$refs.videoChild.videoForm = item;
+        this.$refs.videoChild.articleId = item.articleId;
         this.$refs.videoChild.videoForm.articleCategoryId = item.articleCategory.articleCategoryId
       },
       //分页
       fatherSize(data) {
-        this.pagination.size = data
-        this.getArticles()
+        this.pagination.size = data;
+        this.getArticleList()
       },
       fatherCurrent(data) {
-        this.pagination.page = data
-        this.getArticles()
+        this.pagination.page = data;
+        this.getArticleList()
       }
     }
   }

@@ -5,6 +5,6 @@ import { baseUrl } from './api'
  *
  * @see https://www.easyai.com
  */
-export const getUser = (contxt) => {
-  return contxt.$axios.get(`${baseUrl}/api/account`)
+export const getUser = (context) => {
+  return context.$axios.get(`${baseUrl}/api/account`)
 }

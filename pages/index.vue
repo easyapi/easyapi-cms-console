@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <SideBar></SideBar>
+    <Aside></Aside>
     <div class="main">
       <div class="main-title">
         <div>
@@ -12,7 +12,7 @@
         <el-button type="primary" class="ea-info-btn" @click="openArticle"
         >添加文章
         </el-button>
-        <el-table :data="articalList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
+        <el-table :data="articleList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
           <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="type" label="类型"></el-table-column>
           <el-table-column prop="articleCategory.name" label="分类">
@@ -21,17 +21,14 @@
           <el-table-column prop="addTime" label="发布时间"></el-table-column>
           <el-table-column>
             <template #default="scope">
-              <el-button type="primary" @click="openArticle(scope.row)" size="mini"
-              >编辑
-              </el-button
-              >
+              <el-button type="primary" @click="openArticle(scope.row)" size="mini">编辑</el-button>
               <el-button type="danger" size="mini">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
-      <Pagtination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
-                   :total-elements="pagination.total" class="paging"></Pagtination>
+      <Pagination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
+                  :total-elements="pagination.total" class="paging"></Pagination>
       <div style="clear: both"></div>
       <AddArticle ref="articleChild"></AddArticle>
     </div>
@@ -39,24 +36,24 @@
 </template>
 
 <script>
-  import SideBar from '../components/sideBar.vue'
-  import Pagtination from '../components/el-pagination/index'
-  import AddArticle from './article/components/addArticle'
-  import { getArticles } from '../api/article'
+  import Aside from '../components/Aside/index.vue'
+  import Pagination from '../components/Pagination/index'
+  import AddArticle from './article/components/edit'
+  import {getArticleList} from '../api/article'
 
   export default {
     name: 'homePage',
-    middleware({ store, route, redirect, params, query, req, res }) {
+    middleware({store, route, redirect, params, query, req, res}) {
       redirect('/article') // 默认跳转页面的路由
     },
     components: {
-      SideBar,
-      Pagtination,
+      Aside,
+      Pagination,
       AddArticle
     },
     data() {
       return {
-        articalList: [],
+        articleList: [],
         pagination: {
           page: 1,
           size: 12,
@@ -74,30 +71,30 @@
             name: 'description',
             content: '服务市场场景化服务'
           },
-          { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' }
+          {hid: 'keyword', name: 'keyword', content: '服务市场场景化服务'}
         ]
       }
     },
     methods: {
-      //1.获取文章管理列表
-      getArticles() {
-        console.log(111)
-        let page = this.pagination.page - 1
+      /**
+       * 获取文章管理列表
+       */
+      getArticleList() {
+        let page = this.pagination.page - 1;
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
           page: page,
           size: this.pagination.size,
           type: '文章'
-        }
-        getArticles(params, this).then(res => {
-          console.log(res)
+        };
+        getArticleList(params, this).then(res => {
           if (res.data.code === 0) {
-            this.articalList = []
-            this.pagination.total = 0
+            this.articleList = [];
+            this.pagination.total = 0;
             this.loadingData = '暂无数据'
           } else {
-            this.articalList = res.data.content
+            this.articleList = res.data.content
             this.pagination.total = Number(res.data.totalElements)
           }
 
@@ -113,15 +110,15 @@
       //分页
       fatherSize(data) {
         this.pagination.size = data
-        this.getArticles()
+        this.getArticleList()
       },
       fatherCurrent(data) {
         this.pagination.page = data
-        this.getArticles()
+        this.getArticleList()
       }
     },
     mounted() {
-      this.getArticles()
+      this.getArticleList()
     }
   }
 </script>

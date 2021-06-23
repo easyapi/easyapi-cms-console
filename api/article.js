@@ -1,32 +1,31 @@
-import { serviceUrl } from './api'
+import {serviceUrl} from './api'
 
 /**
  * 获取文章列表
  *
  * @see https://www.easyai.com
  */
-export const getArticles = (params, contxt) => {
-  return contxt.$axios.get(`${serviceUrl}/api/articles`, { params: { ...params } })
-}
+export const getArticleList = (params, context) => {
+  return context.$axios.get(`${serviceUrl}/api/articles`, {params: {...params}})
+};
 
 /**
  * 添加文章
  */
-export const postArticle = (data, contxt) => {
-  return contxt.$axios.post(`${serviceUrl}/api/article`, data)
-}
+export const createArticle = (data, context) => {
+  return context.$axios.post(`${serviceUrl}/api/article`, data)
+};
 
 /**
  * 修改文章
  */
-export const updateArticle = (id, data, contxt
-) => {
-  return contxt.$axios.put(`${serviceUrl}/api/article/${id}`, data)
-}
+export const updateArticle = (id, data, context) => {
+  return context.$axios.put(`${serviceUrl}/api/article/${id}`, data)
+};
 
 /**
  * 删除文章
  */
-export const deleteArticle = (id, contxt) => {
-  return contxt.$axios.delete(`${serviceUrl}/api/article/${id}`)
-}
+export const deleteArticle = (id, context) => {
+  return context.$axios.delete(`${serviceUrl}/api/article/${id}`)
+};

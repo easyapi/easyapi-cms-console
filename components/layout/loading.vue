@@ -8,13 +8,13 @@
 <script>
   export default {
     props: ['method', 'totalPages'],
-    data () {
+    data() {
       return {
         page: 0,
       }
     },
     methods: {
-      scroll () {
+      scroll() {
         window.addEventListener('scroll', () => {
           if (this.page >= this.totalPages - 1) {
             return
@@ -22,13 +22,13 @@
 
           let topDistance = document.getElementById('LoadWrap').getBoundingClientRect().top
           if (topDistance < 730) {
-            this.page++
+            this.page++;
             this.method(this.page)
           }
         }, false)
       }
     },
-    mounted () {
+    mounted() {
       this.scroll()
     }
   }

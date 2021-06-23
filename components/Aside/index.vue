@@ -1,12 +1,9 @@
 <template>
-  <div class="sideBar">
-    <div class="sideBar-item" v-for="(nav, index) in sideBarList" :key="index">
-      <nuxt-link
-        :to="nav.path"
-        :class="activePath == nav.path ? 'nav active' : 'nav'"
-      >
-        <i class="el-icon-s-help"></i>
-        <span>{{ nav.title }}</span>
+  <div class="sidebar">
+    <div class="menu" v-for="(menu, index) in menuList" :key="index">
+      <nuxt-link :to="menu.path" :class="activePath === menu.path ? 'menu-item menu-item_active' : 'menu-item'">
+        <i :class="menu.icon"></i>
+        <span>{{ menu.title }}</span>
       </nuxt-link>
     </div>
   </div>
@@ -14,22 +11,25 @@
 
 <script>
   export default {
-    name: 'SideBar',
+    name: 'Aside',
     data() {
       return {
         activePath: '',
-        sideBarList: [
+        menuList: [
           {
             title: '文章管理',
-            path: '/article'
+            path: '/article',
+            icon: 'el-icon-s-help'
           },
           {
             title: '视频管理',
-            path: '/video'
+            path: '/video',
+            icon: 'el-icon-s-help'
           },
           {
             title: '文章分类',
-            path: '/category'
+            path: '/category',
+            icon: 'el-icon-s-help'
           }
         ]
       }
@@ -41,7 +41,7 @@
 </script>
 
 <style scoped lang="scss">
-  .sideBar {
+  .sidebar {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -52,21 +52,15 @@
     background: #fff;
   }
 
-  .sideBar-item :hover {
+  .menu :hover {
     color: #18c1d6;
     background: #f4f4f4;
   }
 
-  .active {
-    color: #18c1d6;
-    background: #f4f4f4;
-  }
-
-  .nav {
+  .menu-item {
     padding: 0 20px;
     width: 200px;
     height: 56px;
-    display: block;
     display: flex;
     align-items: center;
 
@@ -78,5 +72,10 @@
     span {
       font-size: 14px;
     }
+  }
+
+  .menu-item_active {
+    color: #18c1d6;
+    background: #f4f4f4;
   }
 </style>

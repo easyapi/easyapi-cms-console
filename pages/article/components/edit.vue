@@ -58,20 +58,20 @@
 </template>
 
 <script>
-  import { getQiniuKey, getQiniuToken } from '../../../api/qiniu'
-  import { getCategories } from '../../../api/category'
-  import { postArticle, updateArticle } from '../../../api/article'
+  import {getQiniuKey, getQiniuToken} from '../../../api/qiniu'
+  import {getArticleCategoryList} from '../../../api/article-category'
+  import {createArticle, updateArticle} from '../../../api/article'
 
   const toolbarOptions = [
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{header: [1, 2, 3, 4, 5, 6, false]}],
+    [{list: 'ordered'}, {list: 'bullet'}],
     ['bold', 'italic', 'underline'],
-    [{ size: ['small', false, 'large', 'huge'] }],
-    [{ color: ['red', 'blue'] }, { background: ['red', 'blue'] }],
-    [{ script: 'sub' }, { script: 'super' }],
-    [{ direction: 'rtl' }],
+    [{size: ['small', false, 'large', 'huge']}],
+    [{color: ['red', 'blue']}, {background: ['red', 'blue']}],
+    [{script: 'sub'}, {script: 'super'}],
+    [{direction: 'rtl'}],
     ['code-block', 'image']
-  ]
+  ];
   export default {
     name: 'addArticle',
     data() {
@@ -82,15 +82,15 @@
           articleCategoryId: '',
           img: ''
         },
-        articleId:"",
+        articleId: "",
         title: '',
         options: [],
         dialogVisible: false,
         addImgRange: '',
-        dataObj: { token: null, key: null },
+        dataObj: {token: null, key: null},
         ruleValidate: {
           title: [
-            { required: true, message: '请输入视频标题', trigger: 'blur' }
+            {required: true, message: '请输入视频标题', trigger: 'blur'}
           ]
         },
         //编辑器
@@ -103,7 +103,6 @@
               handlers: {
                 image: (value) => {
                   if (value) {
-                    console.log(value)
                     this.imgClick()
                   } else {
                     this.quill.format('image', false)
@@ -122,13 +121,13 @@
     watch: {
       dialogVisible(val) {
         if (val) {
-          this.getCategories()
+          this.getArticleCategoryList()
         }
       }
     },
     methods: {
       imgClick() {
-        this.getImg()
+        this.getImg();
         let upload = document.getElementById('upload')
         upload.click()
       },
@@ -142,19 +141,15 @@
         )
       },
       //获取分类
-      getCategories() {
+      getArticleCategoryList() {
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret')
         }
-        getCategories(params, this).then(res => {
-          if (res.data.code == 1) {
-            let data = res.data.content
-            data.forEach(item => {
-              let obj = {}
-              obj.value = item.articleCategoryId
-              obj.label = item.name
-              this.options.push(obj)
+        getArticleCategoryList(params, this).then(res => {
+          if (res.data.code === 1) {
+            res.data.content.forEach(item => {
+              this.options.push({"label": item.name, "value": item.articleCategoryId})
             })
           }
         })
@@ -173,7 +168,7 @@
         })
       },
       handleAvatarSuccess(res, file) {
-        let img = 'https://qiniu.easyapi.com/' + res.key
+        let img = 'https://qiniu.easyapi.com/' + res.key;
         file.url = img
         this.articleForm.img = img
       },
@@ -187,11 +182,11 @@
               appSecret: sessionStorage.getItem('appSecret')
             }
             if (this.title === '添加文章') {
-              postArticle(data, this).then(res => {
+              createArticle(data, this).then(res => {
                 if (res.data.code === 1) {
-                  this.$message.success('添加成功!')
-                  this.$parent.getArticles()
-                  this.dialogVisible = false
+                  this.$message.success('添加成功!');
+                  this.$parent.getArticleList();
+                  this.dialogVisible = false;
                   this.$refs[formName].resetFields()
                 }
               }).catch(error => {
@@ -200,9 +195,9 @@
             } else if (this.title === '编辑文章') {
               updateArticle(this.articleId, data, this).then(res => {
                 if (res.data.code === 1) {
-                  this.$message.success('编辑成功!')
-                  this.$parent.getArticles()
-                  this.dialogVisible = false
+                  this.$message.success('编辑成功!');
+                  this.$parent.getArticleList();
+                  this.dialogVisible = false;
                   this.$refs[formName].resetFields()
                 }
               }).catch(error => {

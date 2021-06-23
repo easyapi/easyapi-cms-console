@@ -64,8 +64,8 @@
 
 <script>
   import { getQiniuKey, getQiniuToken } from '../../../api/qiniu'
-  import { getCategories } from '../../../api/category'
-  import { postArticle, updateArticle } from '../../../api/article'
+  import { getArticleCategoryList } from '../../../api/article-category'
+  import { createArticle, updateArticle } from '../../../api/article'
 
   export default {
     name: 'addVideo',
@@ -101,16 +101,16 @@
       }
     },
     mounted() {
-      this.getCategories()
+      this.getArticleCategoryList()
     },
     methods: {
       //获取分类
-      getCategories() {
+      getArticleCategoryList() {
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret')
         }
-        getCategories(params, this).then(res => {
+        getArticleCategoryList(params, this).then(res => {
           if (res.data.code == 1) {
             let data = res.data.content
             data.forEach(item => {
@@ -188,10 +188,10 @@
               appSecret: sessionStorage.getItem('appSecret')
             }
             if (this.title === '添加视频') {
-              postArticle(data, this).then(res => {
+              createArticle(data, this).then(res => {
                 if (res.data.code === 1) {
                   this.$message.success('添加成功!')
-                  this.$parent.getArticles()
+                  this.$parent.getArticleList()
                   this.dialogVisible = false
                   this.$refs[formName].resetFields()
                 }
@@ -202,7 +202,7 @@
               updateArticle(this.articleId, data, this).then(res => {
                 if (res.data.code === 1) {
                   this.$message.success('编辑成功!')
-                  this.$parent.getArticles()
+                  this.$parent.getArticleList()
                   this.dialogVisible = false
                   this.$refs[formName].resetFields()
                 }

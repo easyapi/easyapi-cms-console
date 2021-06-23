@@ -11,7 +11,9 @@ html,
 body,
 #__nuxt,
 #__layout {
-  font-family: MicrosoftYaHei;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
   width: 100%;
   height: 100%;
 }
