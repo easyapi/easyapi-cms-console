@@ -147,12 +147,4 @@
 
 <style lang="scss">
 
-  .paging {
-    margin-top: 30px;
-    float: right;
-  }
-
-  .ea-info-btn {
-    margin-bottom: 24px;
-  }
 </style>

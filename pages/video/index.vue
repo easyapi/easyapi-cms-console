@@ -196,20 +196,11 @@
     padding: 5px 10px 0;
   }
 
-  .paging {
-    margin-top: 30px;
-    float: right;
-  }
-
   .video-bottom {
     height: 75px;
   }
 
   .video-edit {
     margin: 10px 0 10px 10px;
-  }
-
-  .ea-info-btn {
-    margin-bottom: 24px;
   }
 </style>
