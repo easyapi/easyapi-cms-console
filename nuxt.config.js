@@ -3,14 +3,14 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: '{{ name }}',
+    title: '{{ name }} - EasyAPI服务市场',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '{{escape description }}' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: '{{escape description }}'}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ],
     script: []
   },
@@ -24,7 +24,7 @@ module.exports = {
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/axios',
-    { src: '@/plugins/nuxt-quill-plugin', ssr: false }
+    {src: '@/plugins/nuxt-quill-plugin', ssr: false}
   ],
   /*
   ** Customize the progress bar color
@@ -40,7 +40,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    transpile: [/^element-ui/,'vue-quill-editor'],
+    transpile: [/^element-ui/, 'vue-quill-editor'],
     extend(config, ctx) {
     },
     maxChunkSize: 300000, // 单个包最大尺寸
@@ -49,4 +49,4 @@ module.exports = {
   server: {
     port: 7777 // default: 3000
   }
-}
+};

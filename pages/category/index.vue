@@ -154,9 +154,6 @@
 </script>
 
 <style lang="scss">
-  .el-table td {
-    height: 100px;
-  }
 
   .paging {
     margin-top: 30px;
