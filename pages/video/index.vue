@@ -17,22 +17,23 @@
             <div class="video-card-item"
                  v-for="item in videoList"
                  :key="item.id">
-              <el-card>
+              <el-card :body-style="{ padding: '0px' }">
                 <div class="video-card-imgBox">
                   <img class="video-card-img" :src="item.img">
                 </div>
-                <h3
+                <h4
                   class="video-title">
-                  {{item.title}}</h3>
+                  {{item.title}}</h4>
                 <div class="video-bottom">
-                  <span class="video-type">
-                类型：{{item.articleCategory.name}}</span>
-                  <el-button class="video-delete" type="danger" size="mini"
-                             @click="deleteVideo(item.articleId)">删除
-                  </el-button>
-                  <el-button class="video-edit" type="primary" size="mini"
-                             @click="updateVideo(item)">编辑
-                  </el-button>
+                  <p class="video-type">类型：{{item.articleCategory.name}}</p>
+                  <div>
+                    <el-button class="video-edit" type="primary" size="mini"
+                               @click="updateVideo(item)">编辑
+                    </el-button>
+                    <el-button class="video-delete" type="danger" size="mini"
+                               @click="deleteVideo(item.articleId)">删除
+                    </el-button>
+                  </div>
                 </div>
               </el-card>
             </div>
@@ -41,7 +42,7 @@
         </div>
         <Edit ref="videoChild"></Edit>
         <Pagination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
-                     :total-elements="pagination.total" class="paging"></Pagination>
+                    :total-elements="pagination.total" class="paging"></Pagination>
         <div style="clear: both"></div>
       </div>
     </div>
@@ -91,7 +92,7 @@
     methods: {
       //1.获取视频管理列表
       getArticleList() {
-        let page = this.pagination.page - 1;
+        let page = this.pagination.page - 1
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
@@ -122,7 +123,7 @@
         }).then(() => {
           deleteArticle(id, this).then(res => {
             if (res.data.code === 1) {
-              this.getArticleList();
+              this.getArticleList()
               this.$message({
                 type: 'success',
                 message: '删除成功!'
@@ -133,25 +134,25 @@
       },
       //添加视频
       openVideo() {
-        this.$refs.videoChild.dialogVisible = true;
-        this.$refs.videoChild.title = '添加视频';
+        this.$refs.videoChild.dialogVisible = true
+        this.$refs.videoChild.title = '添加视频'
         this.$refs.videoChild.videoForm = this.$options.data()
       },
       //编辑视频
       updateVideo(item) {
-        this.$refs.videoChild.dialogVisible = true;
-        this.$refs.videoChild.title = '编辑视频';
-        this.$refs.videoChild.videoForm = item;
-        this.$refs.videoChild.articleId = item.articleId;
+        this.$refs.videoChild.dialogVisible = true
+        this.$refs.videoChild.title = '编辑视频'
+        this.$refs.videoChild.videoForm = item
+        this.$refs.videoChild.articleId = item.articleId
         this.$refs.videoChild.videoForm.articleCategoryId = item.articleCategory.articleCategoryId
       },
       //分页
       fatherSize(data) {
-        this.pagination.size = data;
+        this.pagination.size = data
         this.getArticleList()
       },
       fatherCurrent(data) {
-        this.pagination.page = data;
+        this.pagination.page = data
         this.getArticleList()
       }
     }
@@ -184,7 +185,6 @@
   }
 
   .video-title {
-    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -192,9 +192,7 @@
   }
 
   .video-type {
-    color: #999;
     margin-top: 5px;
-    float: left;
     padding: 5px 10px 0;
   }
 
@@ -204,20 +202,11 @@
   }
 
   .video-bottom {
-    margin-top: 10px;
-    height: 40px;
-  }
-
-  .video-delete {
-    float: right;
-    margin-top: 8px;
-    margin-right: 5px;
+    height: 75px;
   }
 
   .video-edit {
-    float: right;
-    margin-top: 8px;
-    margin-right: 5px;
+    margin: 10px 0 10px 10px;
   }
 
   .ea-info-btn {
