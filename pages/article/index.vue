@@ -10,9 +10,12 @@
       </div>
       <el-divider></el-divider>
       <div class="main-content">
-        <el-button type="primary" class="ea-info-btn" @click="createArticle">
-          添加文章
-        </el-button>
+        <div>
+          <HeadSearch :searchItems="searchItems" @search="search" @event="event" @reset="reset"/>
+          <el-button type="primary" class="ea-info-btn" @click="createArticle">
+            添加文章
+          </el-button>
+        </div>
         <el-table
           :data="articleList"
           :header-cell-style="{background:'#eef1f6',color:'#606266'}"
@@ -45,6 +48,7 @@
 <script>
   import Header from '../../components/Header/index.vue'
   import Aside from '../../components/Aside/index.vue'
+  import HeadSearch from '../../components/searchArea/headSearch'
   import Pagination from '../../components/Pagination/index'
   import Edit from './components/edit'
   import { getArticleList, deleteArticle } from '../../api/article'
@@ -54,12 +58,17 @@
     components: {
       Header,
       Aside,
+      HeadSearch,
       Pagination,
       Edit
     },
     data() {
       return {
         articleList: [],
+        searchItems: [
+          { label: '标题', type: 'input', key: 'title' }
+        ],
+        title: '',
         showHeader: '',
         pagination: {
           page: 1,
@@ -87,6 +96,7 @@
         this.loadingData = true
         let page = this.pagination.page - 1
         let params = {
+          title: this.title,
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
           page: page,
@@ -152,6 +162,20 @@
       fatherCurrent(data) {
         this.pagination.page = data
         this.getArticleList()
+      },
+      search(item) {
+        console.log(1111, item)
+        let { title } = item
+        this.title = title
+        this.getArticleList()
+      },
+      reset(item){
+        console.log(1111, item)
+
+      },
+      event(item) {
+        let { title } = item
+        this.title = title
       }
     },
     mounted() {
