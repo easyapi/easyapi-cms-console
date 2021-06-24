@@ -27,11 +27,11 @@
                 <div class="video-bottom">
                   <p class="video-type">类型：{{item.articleCategory.name}}</p>
                   <div>
-                    <el-button class="video-edit" type="primary" size="mini"
-                               @click="updateVideo(item)">编辑
-                    </el-button>
                     <el-button class="video-delete" type="danger" size="mini"
                                @click="deleteVideo(item.articleId)">删除
+                    </el-button>
+                    <el-button class="video-edit" type="primary" size="mini"
+                               @click="updateVideo(item)">编辑
                     </el-button>
                   </div>
                 </div>
@@ -194,13 +194,20 @@
   .video-type {
     margin-top: 5px;
     padding: 5px 10px 0;
+    float: left;
   }
 
   .video-bottom {
-    height: 75px;
+    height: 45px;
   }
 
   .video-edit {
+    float: right;
     margin: 10px 0 10px 10px;
+  }
+
+  .video-delete {
+    float: right;
+    margin: 10px 10px 10px 10px;
   }
 </style>
