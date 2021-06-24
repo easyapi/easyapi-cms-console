@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <Header></Header>
     <Aside></Aside>
     <div class="main">
       <div class="main-title">
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+  import Header from '../../components/Header/index.vue'
   import Aside from '../../components/Aside/index.vue'
   import Pagination from '../../components/Pagination/index'
   import Edit from './components/edit.vue'
@@ -60,6 +62,7 @@
   export default {
     name: '',
     components: {
+      Header,
       Aside,
       Edit,
       Pagination

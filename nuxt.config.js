@@ -24,7 +24,8 @@ module.exports = {
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/axios',
-    {src: '@/plugins/nuxt-quill-plugin', ssr: false}
+    {src: '@/plugins/nuxt-quill-plugin', ssr: false},
+    {src: '@/plugins/commom.js', ssr: false}
   ],
   /*
   ** Customize the progress bar color
