@@ -12,7 +12,15 @@
         <el-button type="primary" class="ea-info-btn" @click="openCategory"
         >添加分类
         </el-button>
-        <el-table :data="tableList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
+        <el-table
+          :data="tableList"
+          :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+          v-loading="loadingData"
+          element-loading-text="数据正在加载中..."
+        >
+          <template slot="empty">
+            <p>{{tableText}}</p>
+          </template>
           <el-table-column prop="name" label="分类"></el-table-column>
           <el-table-column prop="addTime" label="添加时间"></el-table-column>
           <el-table-column prop="description" label="描述">
@@ -47,7 +55,7 @@
   import Aside from '../../components/Aside/index.vue'
   import Pagination from '../../components/Pagination/index'
   import Edit from './components/edit.vue'
-  import {getArticleCategoryList, deleteArticleCategory} from '../../api/article-category'
+  import { getArticleCategoryList, deleteArticleCategory } from '../../api/article-category'
 
   export default {
     name: '',
@@ -64,15 +72,15 @@
           size: 12,
           total: 0
         },
-        loadingData: '加载中'
+        loadingData: false
       }
     },
     head() {
       return {
         title: '金融专辑 - EasyAPI服务市场',
         meta: [
-          {hid: 'description', name: 'description', content: '服务市场场景化服务'},
-          {hid: 'keyword', name: 'keyword', content: '服务市场场景化服务'}
+          { hid: 'description', name: 'description', content: '服务市场场景化服务' },
+          { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' }
         ]
       }
     },
@@ -81,38 +89,39 @@
        * 获取文章分类列表
        */
       getArticleCategories() {
-        let page = this.pagination.page - 1;
+        this.loadingData = true
+        let page = this.pagination.page - 1
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
           page: page,
           size: this.pagination.size
-        };
+        }
         getArticleCategoryList(params, this).then(res => {
           if (res.data.code === 0) {
-            this.tableList = [];
-            this.pagination.total = 0;
-            this.loadingData = '暂无数据'
+            this.loadingData = false
+            this.tableList = []
+            this.pagination.total = 0
           } else {
-            this.tableList = res.data.content;
+            this.loadingData = false
+            this.tableList = res.data.content
             this.pagination.total = Number(res.data.totalElements)
           }
         }).catch(error => {
-          this.loadingData = '暂无数据';
           console.log(error)
         })
       },
       //添加分类
       openCategory() {
-        this.$refs.child.dialogVisible = true;
-        this.$refs.child.title = '添加分类';
+        this.$refs.child.dialogVisible = true
+        this.$refs.child.title = '添加分类'
         this.$refs.child.formValidate = this.$options.data()
       },
       //编辑分类
       updateArticleCategory(row) {
-        this.$refs.child.dialogVisible = true;
-        this.$refs.child.title = '编辑分类';
-        this.$refs.child.articleCategoryId = row.articleCategoryId;
+        this.$refs.child.dialogVisible = true
+        this.$refs.child.title = '编辑分类'
+        this.$refs.child.articleCategoryId = row.articleCategoryId
         this.$nextTick(() => {
           this.$refs.child.formValidate = row
         })
@@ -127,7 +136,7 @@
           let data = {}
           deleteArticleCategory(row.articleCategoryId, data, this).then(res => {
             if (res.data.code === 1) {
-              this.getArticleCategories();
+              this.getArticleCategories()
               this.$message({
                 type: 'success',
                 message: '删除成功!'
@@ -138,11 +147,11 @@
       },
       //分页
       fatherSize(data) {
-        this.pagination.size = data;
+        this.pagination.size = data
         this.getArticleCategories()
       },
       fatherCurrent(data) {
-        this.pagination.page = data;
+        this.pagination.page = data
         this.getArticleCategories()
       }
     }

@@ -12,7 +12,15 @@
         <el-button type="primary" class="ea-info-btn" @click="createArticle">
           添加文章
         </el-button>
-        <el-table :data="articleList" :header-cell-style="{background:'#eef1f6',color:'#606266'}">
+        <el-table
+          :data="articleList"
+          :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+          v-loading="loadingData"
+          element-loading-text="数据正在加载中..."
+        >
+          <template slot="empty">
+            <p>{{tableText}}</p>
+          </template>
           <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="articleCategory.name" label="分类" width="180"></el-table-column>
           <el-table-column prop="count" label="查看次数" width="180"></el-table-column>
@@ -37,7 +45,7 @@
   import Aside from '../../components/Aside/index.vue'
   import Pagination from '../../components/Pagination/index'
   import Edit from './components/edit'
-  import {getArticleList, deleteArticle} from '../../api/article'
+  import { getArticleList, deleteArticle } from '../../api/article'
 
   export default {
     name: '',
@@ -54,15 +62,16 @@
           size: 12,
           total: 0
         },
-        loadingData: '加载中'
+        loadingData: false,
+        tableText: ''
       }
     },
     head() {
       return {
         title: '金融专辑 - EasyAPI服务市场',
         meta: [
-          {hid: 'description', name: 'description', content: '服务市场场景化服务'},
-          {hid: 'keyword', name: 'keyword', content: '服务市场场景化服务'}
+          { hid: 'description', name: 'description', content: '服务市场场景化服务' },
+          { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' }
         ]
       }
     },
@@ -71,25 +80,27 @@
        * 获取文章列表
        */
       getArticleList() {
-        let page = this.pagination.page - 1;
+        this.loadingData = true
+        let page = this.pagination.page - 1
         let params = {
           appKey: sessionStorage.getItem('appKey'),
           appSecret: sessionStorage.getItem('appSecret'),
           page: page,
           size: this.pagination.size,
           type: '文章'
-        };
+        }
         getArticleList(params, this).then(res => {
           if (res.data.code === 0) {
-            this.articleList = [];
-            this.pagination.total = 0;
-            this.loadingData = '暂无数据';
+            this.loadingData = false
+            this.tableText = '暂无数据'
+            this.articleList = []
+            this.pagination.total = 0
           } else {
-            this.articleList = res.data.content;
+            this.loadingData = false
+            this.articleList = res.data.content
             this.pagination.total = Number(res.data.totalElements)
           }
         }).catch(error => {
-          this.loadingData = '暂无数据';
           console.log(error)
         })
       },
@@ -97,19 +108,19 @@
        * 添加文章
        */
       createArticle() {
-        this.$refs.editArticle.dialogVisible = true;
-        this.$refs.editArticle.title = '添加文章';
+        this.$refs.editArticle.dialogVisible = true
+        this.$refs.editArticle.title = '添加文章'
         this.$refs.editArticle.articleForm = this.$options.data()
       },
       /**
        * 修改文章
        */
       updateArticle(row) {
-        this.$refs.editArticle.dialogVisible = true;
-        this.$refs.editArticle.title = '编辑文章';
-        this.$refs.editArticle.articleForm = row;
-        this.$refs.editArticle.articleId = row.articleId;
-        this.$refs.editArticle.articleForm.articleCategoryId = row.articleCategory.articleCategoryId;
+        this.$refs.editArticle.dialogVisible = true
+        this.$refs.editArticle.title = '编辑文章'
+        this.$refs.editArticle.articleForm = row
+        this.$refs.editArticle.articleId = row.articleId
+        this.$refs.editArticle.articleForm.articleCategoryId = row.articleCategory.articleCategoryId
       },
       //删除文章
       deleteArticle(row) {
@@ -120,7 +131,7 @@
         }).then(() => {
           deleteArticle(row.articleId, this).then(res => {
             if (res.data.code === 1) {
-              this.getArticleList();
+              this.getArticleList()
               this.$message({
                 type: 'success',
                 message: '删除成功!'
@@ -131,11 +142,11 @@
       },
       //分页
       fatherSize(data) {
-        this.pagination.size = data;
+        this.pagination.size = data
         this.getArticleList()
       },
       fatherCurrent(data) {
-        this.pagination.page = data;
+        this.pagination.page = data
         this.getArticleList()
       }
     },
