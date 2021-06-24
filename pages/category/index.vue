@@ -72,7 +72,8 @@
           size: 12,
           total: 0
         },
-        loadingData: false
+        loadingData: false,
+        tableText: ''
       }
     },
     head() {
@@ -100,6 +101,7 @@
         getArticleCategoryList(params, this).then(res => {
           if (res.data.code === 0) {
             this.loadingData = false
+            this.tableText = '暂无数据'
             this.tableList = []
             this.pagination.total = 0
           } else {
