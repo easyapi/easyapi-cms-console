@@ -1,53 +1,55 @@
 <template>
   <div class="container">
     <Header></Header>
-    <Aside></Aside>
-    <div class="main">
-      <div class="main-title">
-        <div>
-          <b>文章分类</b>
+    <div :class="showHeader ? 'content': 'contents'">
+      <Aside></Aside>
+      <div class="main">
+        <div class="main-title">
+          <div>
+            <b>文章分类</b>
+          </div>
         </div>
-      </div>
-      <el-divider></el-divider>
-      <div class="main-content">
-        <el-button type="primary" class="ea-info-btn" @click="openCategory"
-        >添加分类
-        </el-button>
-        <el-table
-          :data="tableList"
-          :header-cell-style="{background:'#eef1f6',color:'#606266'}"
-          v-loading="loadingData"
-          element-loading-text="数据正在加载中..."
-        >
-          <template slot="empty">
-            <p>{{tableText}}</p>
-          </template>
-          <el-table-column prop="name" label="分类"></el-table-column>
-          <el-table-column prop="addTime" label="添加时间"></el-table-column>
-          <el-table-column prop="description" label="描述">
-          </el-table-column>
-          <el-table-column prop="img" label="图片">
-            <template #default="scope">
-              <img style="width: 60px" :src="scope.row.img"/>
+        <el-divider></el-divider>
+        <div class="main-content">
+          <el-button type="primary" class="ea-info-btn" @click="openCategory"
+          >添加分类
+          </el-button>
+          <el-table
+            :data="tableList"
+            :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+            v-loading="loadingData"
+            element-loading-text="数据正在加载中..."
+          >
+            <template slot="empty">
+              <p>{{tableText}}</p>
             </template>
-          </el-table-column>
-          <el-table-column
-            fixed="right"
-            label="操作">
-            <template #default="scope">
-              <el-button @click="updateArticleCategory(scope.row)" type="primary" size="mini"
-              >编辑
-              </el-button
-              >
-              <el-button type="danger" size="mini" @click="deleteArticleCategory(scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+            <el-table-column prop="name" label="分类"></el-table-column>
+            <el-table-column prop="addTime" label="添加时间"></el-table-column>
+            <el-table-column prop="description" label="描述">
+            </el-table-column>
+            <el-table-column prop="img" label="图片">
+              <template #default="scope">
+                <img style="width: 60px" :src="scope.row.img"/>
+              </template>
+            </el-table-column>
+            <el-table-column
+              fixed="right"
+              label="操作">
+              <template #default="scope">
+                <el-button @click="updateArticleCategory(scope.row)" type="primary" size="mini"
+                >编辑
+                </el-button
+                >
+                <el-button type="danger" size="mini" @click="deleteArticleCategory(scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <Pagination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
+                    :total-elements="pagination.total" class="paging"></Pagination>
+        <div style="clear: both"></div>
+        <Edit ref="child"></Edit>
       </div>
-      <Pagination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
-                  :total-elements="pagination.total" class="paging"></Pagination>
-      <div style="clear: both"></div>
-      <Edit ref="child"></Edit>
     </div>
   </div>
 </template>

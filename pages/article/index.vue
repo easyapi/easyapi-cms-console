@@ -1,48 +1,51 @@
 <template>
   <div class="container">
     <Header></Header>
-    <Aside></Aside>
-    <div class="main">
-      <div class="main-title">
-        <div>
-          <b>文章管理</b>
+    <div :class="showHeader ? 'content': 'contents'">
+      <Aside></Aside>
+      <div class="main">
+        <div class="main-title">
+          <div>
+            <b>文章管理</b>
+          </div>
         </div>
-      </div>
-      <el-divider></el-divider>
-      <div class="main-content">
-        <div>
-          <HeadSearch :searchItems="searchItems" @search="search" @event="event" @reset="reset"/>
-          <el-button type="primary" class="ea-info-btn" @click="createArticle">
-            添加文章
-          </el-button>
-        </div>
-        <el-table
-          :data="articleList"
-          :header-cell-style="{background:'#eef1f6',color:'#606266'}"
-          v-loading="loadingData"
-          element-loading-text="数据正在加载中..."
-        >
-          <template slot="empty">
-            <p>{{tableText}}</p>
-          </template>
-          <el-table-column prop="title" label="标题"></el-table-column>
-          <el-table-column prop="articleCategory.name" label="分类" width="180"></el-table-column>
-          <el-table-column prop="count" label="查看次数" width="180"></el-table-column>
-          <el-table-column prop="addTime" label="发布时间" width="200"></el-table-column>
-          <el-table-column width="200">
-            <template #default="scope">
-              <el-button type="primary" @click="updateArticle(scope.row)" size="mini">编辑</el-button>
-              <el-button @click="deleteArticle(scope.row)" type="danger" size="mini">删除</el-button>
+        <el-divider></el-divider>
+        <div class="main-content">
+          <div>
+            <HeadSearch :searchItems="searchItems" @search="search" @event="event" @reset="reset"/>
+            <el-button type="primary" class="ea-info-btn" @click="createArticle">
+              添加文章
+            </el-button>
+          </div>
+          <el-table
+            :data="articleList"
+            :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+            v-loading="loadingData"
+            element-loading-text="数据正在加载中..."
+          >
+            <template slot="empty">
+              <p>{{tableText}}</p>
             </template>
-          </el-table-column>
-        </el-table>
+            <el-table-column prop="title" label="标题"></el-table-column>
+            <el-table-column prop="articleCategory.name" label="分类" width="180"></el-table-column>
+            <el-table-column prop="count" label="查看次数" width="180"></el-table-column>
+            <el-table-column prop="addTime" label="发布时间" width="200"></el-table-column>
+            <el-table-column width="200">
+              <template #default="scope">
+                <el-button type="primary" @click="updateArticle(scope.row)" size="mini">编辑</el-button>
+                <el-button @click="deleteArticle(scope.row)" type="danger" size="mini">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <Pagination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
+                    :total-elements="pagination.total" class="paging"></Pagination>
+        <div style="clear: both"></div>
+        <Edit ref="editArticle"></Edit>
       </div>
-      <Pagination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
-                  :total-elements="pagination.total" class="paging"></Pagination>
-      <div style="clear: both"></div>
-      <Edit ref="editArticle"></Edit>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -169,7 +172,7 @@
         this.title = title
         this.getArticleList()
       },
-      reset(item){
+      reset(item) {
         console.log(1111, item)
 
       },
@@ -180,6 +183,7 @@
     },
     mounted() {
       this.getArticleList()
+      this.showHeader = this.comsys.showHeader
     }
   }
 </script>

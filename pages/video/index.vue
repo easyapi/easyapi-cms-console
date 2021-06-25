@@ -1,50 +1,52 @@
 <template>
   <div class="container">
     <Header></Header>
-    <Aside></Aside>
-    <div class="main">
-      <div class="main-title">
-        <div>
-          <b>视频管理</b>
-        </div>
-      </div>
-      <el-divider></el-divider>
-      <div class="main-content">
-        <el-button type="primary" class="ea-info-btn" @click="openVideo"
-        >添加视频
-        </el-button>
-        <div>
-          <div class="video-card">
-            <div class="video-card-item"
-                 v-for="item in videoList"
-                 :key="item.id">
-              <el-card :body-style="{ padding: '0px' }">
-                <div class="video-card-imgBox">
-                  <img class="video-card-img" :src="item.img">
-                </div>
-                <h4
-                  class="video-title">
-                  {{item.title}}</h4>
-                <div class="video-bottom">
-                  <p class="video-type">类型：{{item.articleCategory.name}}</p>
-                  <div>
-                    <el-button class="video-delete" type="danger" size="mini"
-                               @click="deleteVideo(item.articleId)">删除
-                    </el-button>
-                    <el-button class="video-edit" type="primary" size="mini"
-                               @click="updateVideo(item)">编辑
-                    </el-button>
-                  </div>
-                </div>
-              </el-card>
-            </div>
-            <div style="clear: both"></div>
+    <div :class="showHeader ? 'content': 'contents'">
+      <Aside></Aside>
+      <div class="main">
+        <div class="main-title">
+          <div>
+            <b>视频管理</b>
           </div>
         </div>
-        <Edit ref="videoChild"></Edit>
-        <Pagination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
-                    :total-elements="pagination.total" class="paging"></Pagination>
-        <div style="clear: both"></div>
+        <el-divider></el-divider>
+        <div class="main-content">
+          <el-button type="primary" class="ea-info-btn" @click="openVideo"
+          >添加视频
+          </el-button>
+          <div>
+            <div class="video-card">
+              <div class="video-card-item"
+                   v-for="item in videoList"
+                   :key="item.id">
+                <el-card :body-style="{ padding: '0px' }">
+                  <div class="video-card-imgBox">
+                    <img class="video-card-img" :src="item.img">
+                  </div>
+                  <h4
+                    class="video-title">
+                    {{item.title}}</h4>
+                  <div class="video-bottom">
+                    <p class="video-type">类型：{{item.articleCategory.name}}</p>
+                    <div>
+                      <el-button class="video-delete" type="danger" size="mini"
+                                 @click="deleteVideo(item.articleId)">删除
+                      </el-button>
+                      <el-button class="video-edit" type="primary" size="mini"
+                                 @click="updateVideo(item)">编辑
+                      </el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </div>
+              <div style="clear: both"></div>
+            </div>
+          </div>
+          <Edit ref="videoChild"></Edit>
+          <Pagination @fatherSize="fatherSize" @fatherCurrent="fatherCurrent" :size="pagination.size"
+                      :total-elements="pagination.total" class="paging"></Pagination>
+          <div style="clear: both"></div>
+        </div>
       </div>
     </div>
   </div>
