@@ -11,7 +11,7 @@
       <el-divider></el-divider>
       <div class="main-content">
         <div>
-          <HeadSearch :searchItems="searchItems" @search="search" @event="event" @reset="reset"/>
+          <SearchArea :items="searchAreaItems" @search="search" @event="event" @reset="reset"/>
           <el-button type="primary" class="ea-info-btn" @click="createArticle">
             添加文章
           </el-button>
@@ -48,25 +48,25 @@
 <script>
   import Header from '../../components/Header/index.vue'
   import Aside from '../../components/Aside/index.vue'
-  import HeadSearch from '../../components/searchArea/headSearch'
+  import SearchArea from '../../components/SearchArea/index'
   import Pagination from '../../components/Pagination/index'
   import Edit from './components/edit'
-  import { getArticleList, deleteArticle } from '../../api/article'
+  import {getArticleList, deleteArticle} from '../../api/article'
 
   export default {
     name: '',
     components: {
       Header,
       Aside,
-      HeadSearch,
+      SearchArea,
       Pagination,
       Edit
     },
     data() {
       return {
         articleList: [],
-        searchItems: [
-          { label: '标题', type: 'input', key: 'title' }
+        searchAreaItems: [
+          {label: '标题', type: 'input', key: 'title', size: 'middle'}
         ],
         title: '',
         showHeader: '',
@@ -83,8 +83,8 @@
       return {
         title: '金融专辑 - EasyAPI服务市场',
         meta: [
-          { hid: 'description', name: 'description', content: '服务市场场景化服务' },
-          { hid: 'keyword', name: 'keyword', content: '服务市场场景化服务' }
+          {hid: 'description', name: 'description', content: '服务市场场景化服务'},
+          {hid: 'keyword', name: 'keyword', content: '服务市场场景化服务'}
         ]
       }
     },
@@ -105,13 +105,13 @@
         }
         getArticleList(params, this).then(res => {
           if (res.data.code === 0) {
-            this.loadingData = false
-            this.tableText = '暂无数据'
-            this.articleList = []
+            this.loadingData = false;
+            this.tableText = '暂无数据';
+            this.articleList = [];
             this.pagination.total = 0
           } else {
-            this.loadingData = false
-            this.articleList = res.data.content
+            this.loadingData = false;
+            this.articleList = res.data.content;
             this.pagination.total = Number(res.data.totalElements)
           }
         }).catch(error => {
@@ -122,18 +122,18 @@
        * 添加文章
        */
       createArticle() {
-        this.$refs.editArticle.dialogVisible = true
-        this.$refs.editArticle.title = '添加文章'
+        this.$refs.editArticle.dialogVisible = true;
+        this.$refs.editArticle.title = '添加文章';
         this.$refs.editArticle.articleForm = this.$options.data()
       },
       /**
        * 修改文章
        */
       updateArticle(row) {
-        this.$refs.editArticle.dialogVisible = true
-        this.$refs.editArticle.title = '编辑文章'
-        this.$refs.editArticle.articleForm = row
-        this.$refs.editArticle.articleId = row.articleId
+        this.$refs.editArticle.dialogVisible = true;
+        this.$refs.editArticle.title = '编辑文章';
+        this.$refs.editArticle.articleForm = row;
+        this.$refs.editArticle.articleId = row.articleId;
         this.$refs.editArticle.articleForm.articleCategoryId = row.articleCategory.articleCategoryId
       },
       //删除文章
@@ -156,25 +156,22 @@
       },
       //分页
       fatherSize(data) {
-        this.pagination.size = data
+        this.pagination.size = data;
         this.getArticleList()
       },
       fatherCurrent(data) {
-        this.pagination.page = data
+        this.pagination.page = data;
         this.getArticleList()
       },
       search(item) {
-        console.log(1111, item)
-        let { title } = item
-        this.title = title
+        let {title} = item;
+        this.title = title;
         this.getArticleList()
       },
-      reset(item){
-        console.log(1111, item)
-
+      reset(item) {
       },
       event(item) {
-        let { title } = item
+        let {title} = item;
         this.title = title
       }
     },

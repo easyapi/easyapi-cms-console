@@ -1,18 +1,18 @@
 <template>
   <div :class="allShow ? 'search-area all-show' : 'search-area'">
     <el-row>
-      <SearchItem v-for="(item, index) in searchItems" :key="index + (item.label || 'a')" :item="item"
-                  v-show="item.show" :allShow="allShow" @event="event" @open="open" @search="search" @reset="reset"
-                  :ref="item.key"/>
+      <Item v-for="(item, index) in items" :key="index + (item.label || 'a')" :item="item"
+            v-show="item.show" :allShow="allShow" @event="event" @open="open" @search="search" @reset="reset"
+            :ref="item.key"/>
     </el-row>
   </div>
 </template>
 <script>
-  import SearchItem from './searchItem'
+  import Item from './item'
 
   export default {
     props: {
-      searchItems: {
+      items: {
         type: Array,
         default: []
       }
@@ -21,96 +21,96 @@
       return {
         innerWidth: null,
         allShow: false,
-        btns: {
-          type: 'btns'
+        buttons: {
+          type: 'buttons'
         }
       }
     },
-    components: { SearchItem },
+    components: {Item},
     created() {
     },
     mounted() {
-      window.onresize = this.windowResize
-      let innerWidth = window.innerWidth
-      this.innerWidth = innerWidth
-      this.setSearchItems()
+      window.onresize = this.windowResize;
+      let innerWidth = window.innerWidth;
+      this.innerWidth = innerWidth;
+      this.setItems()
     },
     methods: {
       windowResize(e) {
-        this.innerWidth = e.target.innerWidth
-        this.setSearchItems()
+        this.innerWidth = e.target.innerWidth;
+        this.setItems()
       },
       search() {
-        let obj = {}
-        this.searchItems.map(item => {
+        let obj = {};
+        this.items.map(item => {
           if (item.value) {
             obj[item.key] = item.value
           }
-        })
+        });
         this.$emit('search', obj)
       },
       reset() {
-        let searchItems = this.searchItems
-        let doms = []
-        searchItems.map(item => {
+        let items = this.items;
+        let doms = [];
+        items.map(item => {
           if (item.key) {
-            let dom = this.$refs[item.key]
+            let dom = this.$refs[item.key];
             doms.push(dom)
           }
-        })
+        });
         doms.map(item => {
-          let dom = item[0].$children[0].$children[0]
+          let dom = item[0].$children[0].$children[0];
           if (dom.handleClear) {
             dom.handleClear()
           } else if (dom.reset) {
             dom.reset()
           }
-        })
-        searchItems.forEach(item => {
+        });
+        items.forEach(item => {
           item.value = null
-        })
-        this.searchItems = searchItems
+        });
+        this.items = items
       },
       open() {
-        this.allShow = !this.allShow
-        this.setSearchItems()
+        this.allShow = !this.allShow;
+        this.setItems()
       },
       event(item) {
-        let obj = {}
-        this.searchItems.map(item => {
+        let obj = {};
+        this.items.map(item => {
           if (item.value) {
             obj[item.key] = item.value
           }
-        })
+        });
         this.$emit('event', obj)
       },
-      setSearchItems() {
-        let { searchItems, innerWidth, btns } = this
-        let index = searchItems.findIndex(item => {
-          return item.type == 'btns'
-        })
-        if (index != -1) {
-          searchItems.splice(index, 1)
+      setItems() {
+        let {items, innerWidth, buttons} = this;
+        let index = items.findIndex(item => {
+          return item.type === 'buttons'
+        });
+        if (index !== -1) {
+          items.splice(index, 1)
         }
-        let width = 0
+        let width = 0;
         if (innerWidth >= 1600) {
-          searchItems.splice(3, 0, { type: 'btns' })
+          items.splice(3, 0, {type: 'buttons'});
           width = 6
         } else if (innerWidth >= 992) {
-          searchItems.splice(2, 0, { type: 'btns' })
+          items.splice(2, 0, {type: 'buttons'});
           width = 8
         } else {
-          searchItems.splice(1, 0, { type: 'btns' })
+          items.splice(1, 0, {type: 'buttons'});
           width = 12
         }
 
-        searchItems.forEach((item, index) => {
-          if (item.size == 'large') {
-            let befores = searchItems.slice(0, index)
+        items.forEach((item, index) => {
+          if (item.size === 'large') {
+            let befores = items.slice(0, index);
             let beforeWidth = befores.reduce((a, b) => {
               return a + (b.width || width)
-            }, 0)
-            let used = beforeWidth % 24
+            }, 0);
+            let used = beforeWidth % 24;
             if (24 - used < 12) {
               item.width = 24
             } else {
@@ -120,16 +120,16 @@
           if (this.allShow) {
             item.show = true
           } else {
-            if (width == 6) {
+            if (width === 6) {
               item.show = index <= 3
-            } else if (width == 8) {
+            } else if (width === 8) {
               item.show = index <= 2
             } else {
               item.show = index <= 1
             }
           }
-        })
-        this.searchItems = searchItems
+        });
+        this.items = items
       }
     }
   }
