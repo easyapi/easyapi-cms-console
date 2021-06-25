@@ -39,7 +39,6 @@
                   </div>
                 </el-card>
               </div>
-              <div style="clear: both"></div>
             </div>
           </div>
           <Edit ref="videoChild"></Edit>
@@ -166,15 +165,13 @@
 
 <style lang="scss" scoped>
   .video-card {
-    background: #F8F8F9;
-    padding-top: 20px;
-    min-height: 42px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   .video-card-item {
-    float: left;
     margin-bottom: 30px;
-    margin-left: 3%;
     width: 21.25%;
   }
 
@@ -184,7 +181,6 @@
 
   .video-card-img {
     width: 100%;
-    height: 200px;
     object-fit: scale-down;
     border-radius: 6px;
   }
@@ -197,6 +193,8 @@
   }
 
   .video-type {
+    font-size: 13px;
+    color: #999;
     margin-top: 5px;
     padding: 5px 10px 0;
     float: left;
