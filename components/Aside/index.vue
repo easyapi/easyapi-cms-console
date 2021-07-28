@@ -76,6 +76,6 @@
 
   .menu-item_active {
     color: #18c1d6;
-    background: #f4f4f4;
+    background: #f2fbff;
   }
 </style>
