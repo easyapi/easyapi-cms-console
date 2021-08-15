@@ -5,12 +5,12 @@ module.exports = {
   head: {
     title: '{{ name }} - EasyAPI服务市场',
     meta: [
-      {charset: 'utf-8'},
-      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: '{{escape description }}'}
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '{{escape description }}' }
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     script: []
   },
@@ -24,8 +24,8 @@ module.exports = {
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/axios',
-    {src: '@/plugins/nuxt-quill-plugin', ssr: false},
-    {src: '@/plugins/commom.js', ssr: false}
+    { src: '@/plugins/nuxt-quill-plugin', ssr: false },
+    { src: '@/plugins/commom.js', ssr: false }
   ],
   /*
   ** Customize the progress bar color
@@ -33,6 +33,9 @@ module.exports = {
   modules: [
     '@nuxtjs/axios'
   ],
+  router: {
+    base: '/console/'
+  },
   axios: {},
   loading: {
     color: '#3B8070'
@@ -48,6 +51,6 @@ module.exports = {
     extractCSS: true // 单独提取CSS
   },
   server: {
-    port: 7777 // default: 3000
+    port: 3000
   }
-};
+}
