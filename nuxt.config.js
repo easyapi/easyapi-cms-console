@@ -15,7 +15,7 @@ module.exports = {
     script: []
   },
   css: [
-    '@/assets/css/common.css',
+    '@/assets/scss/common.scss',
     '@/assets/scss/element-variables.scss',
     'quill/dist/quill.snow.css',
     'quill/dist/quill.bubble.css',
@@ -39,6 +39,9 @@ module.exports = {
   axios: {},
   loading: {
     color: '#3B8070'
+  },
+  styleResources: {
+    scss: './assets/scss/variables.scss'
   },
   /*
   ** Build configuration

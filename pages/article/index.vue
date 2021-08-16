@@ -174,7 +174,6 @@ export default {
     },
     reset(item) {
       console.log(1111, item)
-
     },
     event(item) {
       let { title } = item
