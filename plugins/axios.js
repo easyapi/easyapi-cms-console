@@ -2,10 +2,10 @@ import Cookies from 'js-cookie'
 
 export default function ({ $axios, redirect }) {
   $axios.onRequest((config) => {
-    let token = Cookies.get('Authorization');
+    let token = Cookies.get('fpAuthToken');
     token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6aGFuZzIwMDg0QDEyNi5jb20iLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTYzMDU2MTM3N30.azaztxDcYHIP-xPfjxeooYVp8cUxqj9xNsvLXFRD1S810zYqdQ42s9WiJ5UFliqPIEtwfkIjAyyVUBdZ70NCsw";
     if (token) {
-      config.headers.Authorization =
+      config.headers.fpAuthToken =
         'Bearer ' + token
     }
   })
