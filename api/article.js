@@ -6,26 +6,26 @@ import {serviceUrl} from './api'
  * @see https://www.easyai.com
  */
 export const getArticleList = (params, context) => {
-  return context.$axios.get(`${serviceUrl}/api/articles`, {params: {...params}})
+  return context.$axios.get(`${serviceUrl}/articles`, {params: {...params}})
 };
 
 /**
  * 添加文章
  */
 export const createArticle = (data, context) => {
-  return context.$axios.post(`${serviceUrl}/api/article`, data)
+  return context.$axios.post(`${serviceUrl}/article`, data)
 };
 
 /**
  * 修改文章
  */
 export const updateArticle = (id, data, context) => {
-  return context.$axios.put(`${serviceUrl}/api/article/${id}`, data)
+  return context.$axios.put(`${serviceUrl}/article/${id}`, data)
 };
 
 /**
  * 删除文章
  */
 export const deleteArticle = (id, context) => {
-  return context.$axios.delete(`${serviceUrl}/api/article/${id}`)
+  return context.$axios.delete(`${serviceUrl}/article/${id}`)
 };

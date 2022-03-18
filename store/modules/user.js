@@ -49,16 +49,16 @@ const user = {
     },
     SET_TOKEN: (state, token) => {
       state.token = token
-    },
+    }
   },
 
   actions: {
     // 用户名登录
-    LoginByUsername ({ commit }, userInfo) {
+    LoginByUsername({ commit }, userInfo) {
 
     },
     // 获取用户信息
-    GetUserInfo ({ commit }) {
+    GetUserInfo({ commit }) {
       getUser().then(res => {
         let userInfoData = res.data
         commit('SET_USERID', userInfoData.id)
@@ -74,10 +74,6 @@ const user = {
       }).catch(error => {
         // Cookies.remove('authenticationToken')
       })
-    },
-    // 登出
-    Logout () {
-      Cookies.remove('authenticationToken')
     },
   }
 }

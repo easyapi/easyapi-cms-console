@@ -167,13 +167,11 @@ export default {
       this.getArticleList()
     },
     search(item) {
-      console.log(1111, item)
       let { title } = item
       this.title = title
       this.getArticleList()
     },
     reset(item) {
-      console.log(1111, item)
     },
     event(item) {
       let { title } = item

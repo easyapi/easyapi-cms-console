@@ -6,5 +6,5 @@ import { baseUrl } from './api'
  * @see https://www.easyai.com
  */
 export const getUser = (context) => {
-  return context.$axios.get(`${baseUrl}/api/account`)
+  return context.$axios.get(`${baseUrl}/account`)
 }
